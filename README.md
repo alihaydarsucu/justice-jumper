@@ -25,7 +25,7 @@ You can play it via this link: [⚖ Justice Jumper](https://alihaydarsucu.github
 
 1. Clone this repository:
    ```sh
-   git clone https://github.com/vibe-coding/justice-jumper.git
+   git clone https://github.com/alihaydarsucu/pixel-jumper.git
    ```
 2. Navigate to the project directory:
    ```sh
