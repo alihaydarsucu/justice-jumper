@@ -228,7 +228,6 @@ function addEventListeners() {
     document.getElementById("restartButton").addEventListener("click", restartGame);
     document.getElementById("restartButton").addEventListener("touchstart", restartGame, { passive: false }); // Dokunma olayını ekle
 }
-}
 
 // Tıklama ile oyuncuyu zıplat
 function handleClick(event) {
