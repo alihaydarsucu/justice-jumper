@@ -121,6 +121,30 @@ button:active {
     box-shadow: 0 2px 0 #cc9900;
 }
 
+/* Pause Ekranı */
+#pauseScreen {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    backdrop-filter: blur(5px);
+    display: none; /* Başlangıçta gizli */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    z-index: 200; /* Diğer elementlerden daha yüksek */
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+#pauseScreen.active {
+    opacity: 1;
+    visibility: visible;
+}
+
 /* Score Display */
 #scoreDisplay {
     position: absolute;

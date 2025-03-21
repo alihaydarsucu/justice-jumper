@@ -321,9 +321,10 @@ function togglePause() {
         resumeGame();
     } else {
         gamePaused = true;
-        pauseScreen.style.display = "flex";
+        pauseScreen.style.display = "flex"; // Pause ekranını göster
+        pauseScreen.classList.add("active"); // Aktif sınıfını ekle
         cancelAnimationFrame(animationFrameId);
-        animationFrameId = null; // Clear the animation frame ID
+        animationFrameId = null; // Animasyon döngüsünü temizle
     }
 }
 
@@ -332,9 +333,10 @@ function resumeGame() {
     if (!gamePaused) return;
     
     gamePaused = false;
-    pauseScreen.style.display = "none";
+    pauseScreen.style.display = "none"; // Pause ekranını gizle
+    pauseScreen.classList.remove("active"); // Aktif sınıfını kaldır
     lastTime = performance.now();
-    gameLoop();
+    gameLoop(); // Oyun döngüsünü yeniden başlat
 }
 
 // Oyun döngüsü
