@@ -1,40 +1,51 @@
-# 🎮 Pixel Jumper
+# ⚖ Justice Jumper
 
-🧠 *This game was developed entirely by AI as an experiment to explore AI-generated game development. It is not an official project but rather an activity to test AI capabilities.*
+🧠 _This game was developed entirely by AI as an experiment to explore AI-generated game development. It is not an official project but rather an activity to test AI capabilities._
 
-Pixel Jumper is a Flappy Bird-inspired arcade game featuring smooth physics, dynamic obstacles, and engaging pixel-art visuals. The game is designed to be simple yet challenging, making it a fun experience for all players. 🚀
+**Justice Jumper** is a Flappy Bird-inspired arcade game reimagined with a legal theme. Players take on the role of a young **law student** who must jump over obstacles (law books and legal documents) to win cases and progress in their legal career. 📜✨
 
 ## 🌟 Features
-- 🎮 **Classic Arcade Gameplay**: Jump to avoid obstacles and aim for the highest score.
-- 🕹 **Responsive Controls**: Play with a single tap, click, or spacebar press.
-- 🔥 **Dynamic Difficulty**: The game gets progressively harder as you score more points.
-- 🎨 **Retro Pixel-Art Design**: Aesthetic visuals inspired by classic arcade games.
-- 🔊 **Sound Effects & Animations**: Engaging audio feedback and smooth animations.
+
+- ⚖ **Legal-Themed Gameplay**: Jump through stacks of law books and avoid legal pitfalls.
+- 🏛 **Justice-Themed UI**: The score represents "Cases Won," and the game over message is **"Case Dismissed!"**
+- 🕹 **Simple Yet Challenging Controls**: Play with a single tap, click, or spacebar press.
+- 🔥 **Dynamic Difficulty**: The game speeds up as the student progresses through legal challenges.
+- 🎨 **Retro Pixel-Art Design**: Inspired by classic arcade visuals with a courtroom touch.
+- 🔊 **Sound Effects & Animations**: Featuring gavel hits, page flips, and legal-themed effects.
 
 ## 🛠 Technologies Used
+
 - 🖥 **HTML5** (Canvas for rendering the game)
 - ✨ **JavaScript** (Game logic and physics)
 - 🎨 **CSS** (Styling and UI elements)
 
 ## 🚀 Installation
+
 1. Clone this repository:
    ```sh
-   git clone https://github.com/alihaydarsucu/pixel-jumper.git
+   git clone https://github.com/vibe-coding/justice-jumper.git
    ```
 2. Navigate to the project directory:
    ```sh
-   cd pixel-jumper
+   cd justice-jumper
    ```
 3. Open `index.html` in your preferred browser to start playing.
 
 ## 🎯 How to Play
-- 🏆 Click or press the **spacebar** to jump.
-- 🚧 Avoid hitting the pipes and the ground.
-- 🎯 Try to achieve the highest score possible.
-- ⏸ Press **ESC** to pause the game.
+
+- 🏆 Click or press the **spacebar** to jump over law books and case files.
+- 📜 Avoid hitting legal obstacles to keep your case alive.
+- 🎯 Try to win as many cases as possible.
+- ⏸ Press **ESC** to pause the game (**"Court Adjourned"** message will appear).
 
 ## 👨‍💻 Development
-This project was developed by **vibe-coding** with **DeepSeek v3**. Contributions are welcome!
+
+This project was developed by **vibe-coding** with **DeepSeek v3** as a fun legal-themed experiment. Contributions are welcome!
 
 ## 📜 License
+
 This project is licensed under the **MIT License**. See the `LICENSE` file for more details.
+
+## 🙌 Acknowledgments
+
+Special thanks to the open-source community and game developers who inspire creative projects like **Justice Jumper!** 🎉
