@@ -19,7 +19,7 @@ Pixel Jumper is a Flappy Bird-inspired arcade game featuring smooth physics, dyn
 ## 🚀 Installation
 1. Clone this repository:
    ```sh
-   git clone https://github.com/vibe-coding/pixel-jumper.git
+   git clone https://github.com/alihaydarsucu/pixel-jumper.git
    ```
 2. Navigate to the project directory:
    ```sh
