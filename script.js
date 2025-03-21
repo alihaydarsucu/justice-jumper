@@ -206,11 +206,11 @@ function updateCanvasSize() {
 function addEventListeners() {
     // Tıklama ve dokunma olayları
     canvas.addEventListener("click", handleClick);
-    canvas.addEventListener("touchstart", handleTouch);
-    
+    canvas.addEventListener("touchstart", handleTouch, { passive: false }); // Dokunma olayını ekle
+
     // Klavye olayları
     window.addEventListener("keydown", handleKeyDown);
-    
+
     // Pencere yeniden boyutlandırma
     window.addEventListener("resize", () => {
         updateCanvasSize();
@@ -222,10 +222,12 @@ function addEventListeners() {
     
     // Duraklat ve devam et butonları
     pauseButton.addEventListener("click", togglePause);
-    resumeButton.addEventListener("click", resumeGame);
-    
+    pauseButton.addEventListener("touchstart", togglePause, { passive: false }); // Dokunma olayını ekle
+
     // Restart butonu
     document.getElementById("restartButton").addEventListener("click", restartGame);
+    document.getElementById("restartButton").addEventListener("touchstart", restartGame, { passive: false }); // Dokunma olayını ekle
+}
 }
 
 // Tıklama ile oyuncuyu zıplat
@@ -240,7 +242,7 @@ function handleClick(event) {
 
 // Dokunma ile oyuncuyu zıplat
 function handleTouch(event) {
-    event.preventDefault();
+    event.preventDefault(); // Dokunma olayının varsayılan davranışını engelle
     if (!gameRunning && !gameOver) {
         startGame();
     } else if (!gamePaused && gameRunning) {
