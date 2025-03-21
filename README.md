@@ -61,10 +61,10 @@ Here is our detailed project structure:
 │   │-- background.png
 │   │-- ground.png
 │-- /sounds
-│   │-- jump.mp3
-│   │-- score.mp3
-│   │-- hit.mp3
-│   │-- die.mp3
+│   │-- jump.wav
+│   │-- score.wav
+│   │-- hit.wav
+│   │-- die.wav
 ```
 
 ## 👨‍💻 Development
