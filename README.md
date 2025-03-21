@@ -38,6 +38,35 @@
 - 🎯 Try to win as many cases as possible.
 - ⏸ Press **ESC** to pause the game (**"Court Adjourned"** message will appear).
 
+## 🏛️ Project Structure
+
+Here is our detailed project structure:
+
+```lua
+/justice-jumper
+│-- index.html
+│-- style.css
+│-- script.js
+│-- LICENSE
+│-- README.md
+│-- /images
+│   │-- player0.png
+│   │-- player1.png
+│   │-- player2.png
+│   │-- player3.png
+│   │-- playerJump0.png
+│   │-- playerJump1.png
+│   │-- pipeTop.png
+│   │-- pipeBottom.png
+│   │-- background.png
+│   │-- ground.png
+│-- /sounds
+│   │-- jump.mp3
+│   │-- score.mp3
+│   │-- hit.mp3
+│   │-- die.mp3
+```
+
 ## 👨‍💻 Development
 
 This project was developed by **vibe-coding** with **DeepSeek v3** as a fun legal-themed experiment. Contributions are welcome!
