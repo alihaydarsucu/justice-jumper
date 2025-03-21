@@ -11,7 +11,6 @@ You can play it via this link: [⚖ Justice Jumper](https://alihaydarsucu.github
 - ⚖ **Legal-Themed Gameplay**: Jump through stacks of law books and avoid legal pitfalls.
 - 🏛 **Justice-Themed UI**: The score represents "Cases Won," and the game over message is **"Case Dismissed!"**
 - 🕹 **Simple Yet Challenging Controls**: Play with a single tap, click, or spacebar press.
-- 🔥 **Dynamic Difficulty**: The game speeds up as the student progresses through legal challenges.
 - 🎨 **Retro Pixel-Art Design**: Inspired by classic arcade visuals with a courtroom touch.
 - 🔊 **Sound Effects & Animations**: Featuring gavel hits, page flips, and legal-themed effects.
 
@@ -29,7 +28,7 @@ You can play it via this link: [⚖ Justice Jumper](https://alihaydarsucu.github
    ```
 2. Navigate to the project directory:
    ```sh
-   cd justice-jumper
+   cd pixel-jumper
    ```
 3. Open `index.html` in your preferred browser to start playing.
 
