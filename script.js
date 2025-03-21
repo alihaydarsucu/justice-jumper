@@ -399,7 +399,7 @@ function drawBackground() {
         }
         
         // Arcade tarzı grid çizgileri
-        ctx.strokeStyle = "#554CA8";
+        ctx.strokeStyle = "#4faef5";
         ctx.lineWidth = 1;
         ctx.beginPath();
         for (let y = 0; y < ground.y; y += 30 * scale) {
