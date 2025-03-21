@@ -9,18 +9,18 @@ const pauseScreen = document.getElementById("pauseScreen");
 const resumeButton = document.getElementById("resumeButton");
 const loadingScreen = document.getElementById("loadingScreen");
 
-// Ses efektleri
+// Sound effects
 const jumpSound = document.getElementById("jumpSound");
 const scoreSound = document.getElementById("scoreSound");
 const hitSound = document.getElementById("hitSound");
 const dieSound = document.getElementById("dieSound");
 
-// Ekran ölçeğini ayarla - responsive için
+// Set screen scale - for responsiveness
 let scale;
 let canvasWidth;
 let canvasHeight;
 
-// Oyun değişkenleri
+// Game variables
 let gameRunning = false;
 let gamePaused = false;
 let gameOver = false;
@@ -31,9 +31,9 @@ let lastTime = 0;
 let deltaTime = 0;
 let difficulty = 1;
 let resourcesLoaded = 0;
-let totalResources = 7; // Toplam yüklenecek resim sayısı
+let totalResources = 7; // Total number of images to load
 
-// Player özelliklerini kapsayan obje
+// Player object containing properties
 const player = {
     x: 80,
     y: 300,
@@ -41,8 +41,8 @@ const player = {
     height: 50,
     radius: 20,
     velocity: 0,
-    gravity: 0.25, // Azaltıldı - daha yavaş düşme
-    lift: -6,     // Azaltıldı - daha yumuşak zıplama
+    gravity: 0.25, // Reduced - slower fall
+    lift: -6,     // Reduced - softer jump
     rotation: 0,
     frame: 0,
     frameCount: 4,
@@ -51,23 +51,23 @@ const player = {
     isJumping: false
 };
 
-// Borular ve oyun ayarları
+// Pipes and game settings
 const pipes = [];
 const pipeWidth = 60;
-const pipeGap = 180; // Arttırıldı - daha kolay geçiş
-let pipeSpeed = 1.5; // Azaltıldı - daha yavaş
-let pipeSpawnRate = 2000; // Artırıldı - daha seyrek boru
+const pipeGap = 180; // Increased - easier passage
+let pipeSpeed = 1.5; // Reduced - slower
+let pipeSpawnRate = 2000; // Increased - less frequent pipes
 let lastPipeTime = 0;
 
-// Arka plan ve zemin
+// Background and ground
 const ground = {
-    y: 0, // Hesaplanacak
+    y: 0, // To be calculated
     height: 80,
     x: 0,
-    speed: 1.5 // Azaltıldı - daha yavaş
+    speed: 1.5 // Reduced - slower
 };
 
-// Görüntüler
+// Sprites
 const sprites = {
     player: [],
     playerJump: [],
@@ -78,53 +78,53 @@ const sprites = {
     ready: false
 };
 
-// Oyunu başlat ve kaynaklarını yükle
+// Start the game and load resources
 function init() {
-    // Canvas boyutlarını ayarla
+    // Set canvas dimensions
     updateCanvasSize();
     
-    // Yüksek skoru göster
+    // Display high score
     highScoreDisplay.textContent = highScore;
     
-    // Görselleri yükle
+    // Load images
     loadImages();
     
-    // Olay dinleyicileri ekle
+    // Add event listeners
     addEventListeners();
 }
 
-// Görselleri yükle
+// Load images
 function loadImages() {
-    // Oyuncu koşma frame'leri
+    // Player running frames
     for (let i = 0; i < 4; i++) {
         sprites.player[i] = new Image();
         sprites.player[i].src = `images/player${i}.png`;
         sprites.player[i].onload = resourceLoaded;
-        // Görüntü yüklenemezse hata işleme
+        // Error handling if image cannot be loaded
         sprites.player[i].onerror = () => {
             resourcesLoaded++;
-            console.log("Oyuncu resmi yüklenemedi, varsayılan kullanılacak");
+            console.log("Player image could not be loaded, default will be used");
         };
     }
     
-    // Oyuncu zıplama frame'leri
+    // Player jumping frames
     for (let i = 0; i < 2; i++) {
         sprites.playerJump[i] = new Image();
         sprites.playerJump[i].src = `images/playerJump${i}.png`;
         sprites.playerJump[i].onload = resourceLoaded;
         sprites.playerJump[i].onerror = () => {
             resourcesLoaded++;
-            console.log("Zıplama resmi yüklenemedi, varsayılan kullanılacak");
+            console.log("Jump image could not be loaded, default will be used");
         };
     }
     
-    // Boru resimleri
+    // Pipe images
     sprites.pipeTop = new Image();
     sprites.pipeTop.src = "images/pipeTop.png";
     sprites.pipeTop.onload = resourceLoaded;
     sprites.pipeTop.onerror = () => {
         resourcesLoaded++;
-        console.log("Boru resmi yüklenemedi, varsayılan kullanılacak");
+        console.log("Pipe image could not be loaded, default will be used");
     };
     
     sprites.pipeBottom = new Image();
@@ -132,16 +132,16 @@ function loadImages() {
     sprites.pipeBottom.onload = resourceLoaded;
     sprites.pipeBottom.onerror = () => {
         resourcesLoaded++;
-        console.log("Boru resmi yüklenemedi, varsayılan kullanılacak");
+        console.log("Pipe image could not be loaded, default will be used");
     };
     
-    // Arka plan ve zemin
+    // Background and ground
     sprites.background = new Image();
     sprites.background.src = "images/background.png";
     sprites.background.onload = resourceLoaded;
     sprites.background.onerror = () => {
         resourcesLoaded++;
-        console.log("Arka plan resmi yüklenemedi, varsayılan kullanılacak");
+        console.log("Background image could not be loaded, default will be used");
     };
     
     sprites.ground = new Image();
@@ -149,11 +149,11 @@ function loadImages() {
     sprites.ground.onload = resourceLoaded;
     sprites.ground.onerror = () => {
         resourcesLoaded++;
-        console.log("Zemin resmi yüklenemedi, varsayılan kullanılacak");
+        console.log("Ground image could not be loaded, default will be used");
     };
 }
 
-// Resim yüklenince çağrılır
+// Called when an image is loaded
 function resourceLoaded() {
     resourcesLoaded++;
     
@@ -164,72 +164,72 @@ function resourceLoaded() {
     }
 }
 
-// Canvas boyutlarını ekrana göre ayarla
+// Adjust canvas dimensions based on screen size
 function updateCanvasSize() {
     const container = document.getElementById("game-container");
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
     
-    // Referans ölçülerle oranı hesapla
+    // Calculate ratio with reference dimensions
     const baseWidth = 400;
     const baseHeight = 600;
     
-    // En-boy oranını koru
+    // Maintain aspect ratio
     const aspectRatio = baseWidth / baseHeight;
     
-    // Oyun konteynerinin en-boy oranını koru, ama ekrana sığdır
+    // Maintain aspect ratio of game container, but fit to screen
     if (containerWidth / containerHeight > aspectRatio) {
-        // Ekran daha geniş, yüksekliğe göre ayarla
+        // Screen is wider, adjust based on height
         canvasHeight = containerHeight;
         canvasWidth = containerHeight * aspectRatio;
     } else {
-        // Ekran daha uzun, genişliğe göre ayarla
+        // Screen is taller, adjust based on width
         canvasWidth = containerWidth;
         canvasHeight = containerWidth / aspectRatio;
     }
     
-    // Ölçek faktörünü hesapla
+    // Calculate scale factor
     scale = canvasWidth / baseWidth;
     
-    // Canvas boyutlarını ayarla
+    // Set canvas dimensions
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
     
-    // Oyun değişkenlerini yeniden hesapla
+    // Recalculate game variables
     ground.y = canvasHeight - (ground.height * scale);
     player.radius = 20 * scale;
     player.width = 40 * scale;
     player.height = 50 * scale;
 }
 
-// Olay dinleyicileri ekle
+// Add event listeners
 function addEventListeners() {
-    // Tıklama ve dokunma olayları
+    // Click and touch events
     canvas.addEventListener("click", handleClick);
-    canvas.addEventListener("touchstart", handleTouch, { passive: false }); // Dokunma olayını ekle
+    canvas.addEventListener("touchstart", handleTouch, { passive: false }); // Add touch event
 
-    // Klavye olayları
+    // Keyboard events
     window.addEventListener("keydown", handleKeyDown);
 
-    // Pencere yeniden boyutlandırma
+    // Window resize
     window.addEventListener("resize", () => {
         updateCanvasSize();
         if (gameRunning) {
-            // Oyuncunun pozisyonunu güncelle
+            // Update player position
             player.y = Math.min(player.y, ground.y - player.radius);
         }
     });
     
-    // Duraklat ve devam et butonları
+    // Pause and resume buttons
     pauseButton.addEventListener("click", togglePause);
-    pauseButton.addEventListener("touchstart", togglePause, { passive: false }); // Dokunma olayını ekle
+    pauseButton.addEventListener("touchstart", togglePause, { passive: false }); // Add touch event
 
-    // Restart butonu
+    // Restart button
     document.getElementById("restartButton").addEventListener("click", restartGame);
-    document.getElementById("restartButton").addEventListener("touchstart", restartGame, { passive: false }); // Dokunma olayını ekle
+    document.getElementById("restartButton").addEventListener("touchstart", restartGame, { passive: false }); // Add touch event
 }
 
-// Tıklama ile oyuncuyu zıplat
+// Make the player jump on click
 function handleClick(event) {
     event.preventDefault();
     if (!gameRunning && !gameOver) {
@@ -239,9 +239,9 @@ function handleClick(event) {
     }
 }
 
-// Dokunma ile oyuncuyu zıplat
+// Make the player jump on touch
 function handleTouch(event) {
-    event.preventDefault(); // Dokunma olayının varsayılan davranışını engelle
+    event.preventDefault(); // Prevent default behavior of touch event
     if (!gameRunning && !gameOver) {
         startGame();
     } else if (!gamePaused && gameRunning) {
@@ -249,7 +249,7 @@ function handleTouch(event) {
     }
 }
 
-// Klavye ile kontrol
+// Control with keyboard
 function handleKeyDown(event) {
     if (event.code === "Space") {
         event.preventDefault();
@@ -263,7 +263,7 @@ function handleKeyDown(event) {
     }
 }
 
-// Oyuncuyu zıplat
+// Make the player jump
 function playerJump() {
     player.velocity = player.lift * scale;
     player.isJumping = true;
@@ -271,18 +271,18 @@ function playerJump() {
         player.isJumping = false;
     }, 500);
     
-    // Ses efekti
+    // Sound effect
     if (jumpSound) {
         jumpSound.currentTime = 0;
-        jumpSound.play().catch(e => console.log("Ses çalma hatası:", e));
+        jumpSound.play().catch(e => console.log("Sound play error:", e));
     }
 }
 
-// Oyunu başlat
+// Start the game
 function startGame() {
     document.getElementById("startScreen").style.display = "none";
     
-    // Oyun değişkenlerini sıfırla
+    // Reset game variables
     gameRunning = true;
     gameOver = false;
     score = 0;
@@ -294,27 +294,27 @@ function startGame() {
     ground.speed = 1.5 * scale;
     difficulty = 1;
     
-    // Skor göstergesini güncelle
+    // Update score display
     scoreDisplay.textContent = score;
     finalScoreDisplay.textContent = score;
     
-    // İlk boruyu oluştur
+    // Create the first pipe
     lastPipeTime = performance.now();
     generatePipe();
     
-    // Oyun döngüsünü başlat
+    // Start the game loop
     lastTime = performance.now();
     pauseButton.style.display = "block";
     gameLoop();
 }
 
-// Oyunu yeniden başlat
+// Restart the game
 function restartGame() {
     document.getElementById("gameOverScreen").style.display = "none";
     startGame();
 }
 
-// Oyunu duraklat
+// Pause the game
 function togglePause() {
     if (!gameRunning || gameOver) return;
     
@@ -322,74 +322,74 @@ function togglePause() {
         resumeGame();
     } else {
         gamePaused = true;
-        pauseScreen.style.display = "flex"; // Pause ekranını göster
-        pauseScreen.classList.add("active"); // Aktif sınıfını ekle
+        pauseScreen.style.display = "flex"; // Show pause screen
+        pauseScreen.classList.add("active"); // Add active class
         cancelAnimationFrame(animationFrameId);
-        animationFrameId = null; // Animasyon döngüsünü temizle
+        animationFrameId = null; // Clear the animation frame ID
     }
 }
 
-// Oyuna devam et
+// Resume the game
 function resumeGame() {
     if (!gamePaused) return;
     
     gamePaused = false;
-    pauseScreen.style.display = "none"; // Pause ekranını gizle
-    pauseScreen.classList.remove("active"); // Aktif sınıfını kaldır
+    pauseScreen.style.display = "none"; // Hide pause screen
+    pauseScreen.classList.remove("active"); // Remove active class
     lastTime = performance.now();
-    gameLoop(); // Oyun döngüsünü yeniden başlat
+    gameLoop(); // Restart the game loop
 }
 
-// Oyun döngüsü
+// Game loop
 function gameLoop(timestamp) {
     if (!gameRunning || gamePaused) return;
     
-    // Zaman hesaplaması
+    // Time calculation
     deltaTime = timestamp - lastTime;
     lastTime = timestamp;
     
-    // Ekranı temizle
+    // Clear the screen
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     
-    // Arka planı çiz
+    // Draw the background
     drawBackground();
     
-    // Boruları oluştur ve çiz
+    // Create and draw pipes
     managePipes(timestamp);
     drawPipes();
     
-    // Oyuncu pozisyonunu güncelle ve çiz
+    // Update and draw player position
     updatePlayer();
     drawPlayer();
     
-    // Zemini çiz
+    // Draw the ground
     drawGround();
     
-    // Çarpışmaları kontrol et
+    // Check collisions
     checkCollisions();
     
-    // Skoru çizdir
+    // Draw the score
     drawScore();
     
-    // Zorluk seviyesini artır
+    // Increase difficulty
     if (score > 0 && score % 10 === 0) {
         increaseDifficulty();
     }
     
-    // Bir sonraki frame'i çağır
+    // Call the next frame
     animationFrameId = requestAnimationFrame(gameLoop);
 }
 
-// Arka planı çiz
+// Draw the background
 function drawBackground() {
     if (sprites.ready && sprites.background.complete) {
         ctx.drawImage(sprites.background, 0, 0, canvas.width, canvas.height);
     } else {
-        // Arcade tarzı piksel arka plan
-        ctx.fillStyle = "#2b9ef4"; // Koyu mavi
+        // Arcade style pixel background
+        ctx.fillStyle = "#2b9ef4"; // Dark blue
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        // Piksel yıldızlar
+        // Pixel stars
         ctx.fillStyle = "#FFFFFF";
         for (let i = 0; i < 50; i++) {
             let x = Math.random() * canvas.width;
@@ -398,7 +398,7 @@ function drawBackground() {
             ctx.fillRect(x, y, size, size);
         }
         
-        // Arcade tarzı grid çizgileri
+        // Arcade style grid lines
         ctx.strokeStyle = "#554CA8";
         ctx.lineWidth = 1;
         ctx.beginPath();
@@ -410,21 +410,21 @@ function drawBackground() {
     }
 }
 
-// Zemini çiz
+// Draw the ground
 function drawGround() {
     if (sprites.ready && sprites.ground.complete) {
-        // Zemini kaydır
+        // Scroll the ground
         ground.x = (ground.x - ground.speed) % (50 * scale);
         
-        // Zemini çiz
+        // Draw the ground
         ctx.drawImage(sprites.ground, ground.x, ground.y, canvas.width + (50 * scale), ground.height * scale);
     } else {
-        // Arcade tarzı piksel zemin
+        // Arcade style pixel ground
         const gridSize = 20 * scale;
-        ctx.fillStyle = "#663931"; // Kahverengi
+        ctx.fillStyle = "#663931"; // Brown
         ctx.fillRect(0, ground.y, canvas.width, ground.height * scale);
         
-        // Piksel deseni
+        // Pixel pattern
         ctx.fillStyle = "#8C5E58";
         for (let x = 0; x < canvas.width; x += gridSize * 2) {
             for (let y = ground.y; y < canvas.height; y += gridSize * 2) {
@@ -435,32 +435,32 @@ function drawGround() {
     }
 }
 
-// Oyuncuyu güncelle
+// Update the player
 function updatePlayer() {
-    // Yerçekimi ile oyuncuyu düşür
+    // Drop the player with gravity
     player.velocity += player.gravity * scale;
     player.y += player.velocity;
     
-    // Animasyon güncelleme
+    // Update animation
     player.animationCounter++;
     if (player.animationCounter >= player.animationSpeed) {
         player.frame = (player.frame + 1) % player.frameCount;
         player.animationCounter = 0;
     }
     
-    // Zıplama animasyonu
+    // Jump animation
     if (player.isJumping) {
-        player.frame = 3; // Zıplama frame'i
+        player.frame = 3; // Jump frame
     }
 }
 
-// Oyuncuyu çiz
+// Draw the player
 function drawPlayer() {
     ctx.save();
     ctx.translate(player.x, player.y);
     
     if (sprites.ready) {
-        // Zıplama durumuna göre farklı sprite kullan
+        // Use different sprite based on jump state
         const sprite = player.isJumping ? 
             sprites.playerJump[player.frame % 2] : 
             sprites.player[player.frame];
@@ -483,22 +483,22 @@ function drawPlayer() {
     ctx.restore();
 }
 
-// Varsayılan oyuncu çizimi
+// Default player drawing
 function drawDefaultPlayer() {
-    // Arcade tarzı piksel oyuncu
+    // Arcade style pixel player
     ctx.fillStyle = "#FF5555";
     ctx.beginPath();
     ctx.arc(0, 0, player.radius, 0, Math.PI * 2);
     ctx.fill();
     
-    // Gözler
+    // Eyes
     ctx.fillStyle = "#FFFFFF";
     ctx.beginPath();
     ctx.arc(-8 * scale, -8 * scale, 3 * scale, 0, Math.PI * 2);
     ctx.arc(8 * scale, -8 * scale, 3 * scale, 0, Math.PI * 2);
     ctx.fill();
     
-    // Gülümseme
+    // Smile
     ctx.strokeStyle = "#FFFFFF";
     ctx.lineWidth = 2 * scale;
     ctx.beginPath();
@@ -506,45 +506,45 @@ function drawDefaultPlayer() {
     ctx.stroke();
 }
 
-// Boruları oluştur ve yönet
+// Manage and create pipes
 function managePipes(timestamp) {
-    // Zaman gelince yeni boru oluştur
+    // Create new pipe when time comes
     if (timestamp - lastPipeTime > pipeSpawnRate) {
         generatePipe();
         lastPipeTime = timestamp;
     }
     
-    // Boruları hareket ettir
+    // Move pipes
     for (let i = pipes.length - 1; i >= 0; i--) {
         pipes[i].x -= pipeSpeed;
         
-        // Boru ekrandan çıktıysa sil
+        // Remove pipe if it goes off screen
         if (pipes[i].x + pipeWidth * scale < 0) {
             pipes.splice(i, 1);
             continue;
         }
         
-        // Skoru kontrol et
+        // Check score
         if (!pipes[i].passed && pipes[i].x + pipeWidth * scale < player.x - player.radius) {
             pipes[i].passed = true;
             score++;
             scoreDisplay.textContent = score;
-            // Ses efekti
+            // Sound effect
             if (scoreSound) {
                 scoreSound.currentTime = 0;
-                scoreSound.play().catch(e => console.log("Ses çalma hatası:", e));
+                scoreSound.play().catch(e => console.log("Sound play error:", e));
             }
         }
     }
 }
 
-// Yeni boru oluştur
+// Create new pipe
 function generatePipe() {
-    // Rastgele yükseklikte bir boru oluştur
+    // Create a pipe at random height
     let minHeight = 80 * scale;
     let maxHeight = canvas.height - ground.height * scale - pipeGap * scale - minHeight;
     let height = Math.floor(Math.random() * (maxHeight - minHeight) + minHeight);
-    height = Math.max(minHeight, Math.min(height, maxHeight)); // Sınırları kontrol et
+    height = Math.max(minHeight, Math.min(height, maxHeight)); // Check boundaries
     
     pipes.push({
         x: canvas.width,
@@ -556,11 +556,11 @@ function generatePipe() {
     });
 }
 
-// Boruları çiz
+// Draw pipes
 function drawPipes() {
     for (let pipe of pipes) {
         if (sprites.ready && sprites.pipeTop.complete && sprites.pipeBottom.complete) {
-            // Üst boru
+            // Top pipe
             ctx.drawImage(
                 sprites.pipeTop,
                 pipe.x,
@@ -569,7 +569,7 @@ function drawPipes() {
                 sprites.pipeTop.height * scale
             );
             
-            // Alt boru
+            // Bottom pipe
             ctx.drawImage(
                 sprites.pipeBottom,
                 pipe.x,
@@ -578,14 +578,14 @@ function drawPipes() {
                 sprites.pipeBottom ? sprites.pipeBottom.height * scale : pipe.bottomHeight
             );
         } else {
-            // Arcade tarzı piksel borular
+            // Arcade style pixel pipes
             ctx.fillStyle = "#55AA55";
-            // Üst boru
+            // Top pipe
             ctx.fillRect(pipe.x, pipe.y, pipeWidth * scale, pipe.topHeight);
-            // Alt boru
+            // Bottom pipe
             ctx.fillRect(pipe.x, pipe.bottomY, pipeWidth * scale, pipe.bottomHeight);
             
-            // Boru kenarları
+            // Pipe edges
             ctx.strokeStyle = "#338833";
             ctx.lineWidth = 2 * scale;
             ctx.strokeRect(pipe.x, pipe.y, pipeWidth * scale, pipe.topHeight);
@@ -593,32 +593,31 @@ function drawPipes() {
         }
     }
 }
-
-// Çarpışmaları kontrol et
+// Check collisions
 function checkCollisions() {
-    // Yer ile çarpışma
+    // Collision with the ground
     if (player.y + player.radius > ground.y) {
         player.y = ground.y - player.radius;
         endGame();
         return;
     }
     
-    // Tavan ile çarpışma
+    // Collision with the ceiling
     if (player.y - player.radius < 0) {
         player.y = player.radius;
         player.velocity = 0;
     }
     
-    // Borular ile çarpışma
+    // Collision with pipes
     for (let pipe of pipes) {
-        // Oyuncunun x pozisyonu borunun içinde mi?
+        // Is the player's x position within the pipe?
         if (player.x + player.radius > pipe.x && player.x - player.radius < pipe.x + pipeWidth * scale) {
-            // Üst boru ile çarpışma
+            // Collision with the top pipe
             if (player.y - player.radius < pipe.topHeight) {
                 endGame();
                 return;
             }
-            // Alt boru ile çarpışma
+            // Collision with the bottom pipe
             if (player.y + player.radius > pipe.bottomY) {
                 endGame();
                 return;
@@ -627,7 +626,7 @@ function checkCollisions() {
     }
 }
 
-// Skoru çiz
+// Draw the score
 function drawScore() {
     ctx.fillStyle = "#FFFFFF";
     ctx.font = `${32 * scale}px 'Bungee', sans-serif`;
@@ -638,14 +637,14 @@ function drawScore() {
         return;
     }
     
-    // In-game skor gösterimi
+    // In-game score display
     ctx.fillText(score.toString(), canvas.width / 2, 20 * scale);
     ctx.strokeStyle = "#000000";
     ctx.lineWidth = 2 * scale;
     ctx.strokeText(score.toString(), canvas.width / 2, 20 * scale);
 }
 
-// Zorluk seviyesini artır
+// Increase difficulty
 function increaseDifficulty() {
     if (difficulty >= score / 10) return;
     
@@ -654,44 +653,44 @@ function increaseDifficulty() {
     pipeSpawnRate = Math.max(1000, 2000 - (difficulty * 50));
 }
 
-// Oyunu bitir
+// End the game
 function endGame() {
     gameRunning = false;
     gameOver = true;
     
-    // Ses efektleri
+    // Sound effects
     if (hitSound) {
-        hitSound.play().catch(e => console.log("Ses çalma hatası:", e));
+        hitSound.play().catch(e => console.log("Sound play error:", e));
         setTimeout(() => {
-            if (dieSound) dieSound.play().catch(e => console.log("Ses çalma hatası:", e));
+            if (dieSound) dieSound.play().catch(e => console.log("Sound play error:", e));
         }, 300);
     }
     
-    // Yüksek skoru güncelle
+    // Update high score
     if (score > highScore) {
         highScore = score;
         localStorage.setItem("highScore", highScore);
         highScoreDisplay.textContent = highScore;
     }
     
-    // Final skorunu göster
+    // Show final score
     finalScoreDisplay.textContent = score;
     
-    // Duraklat butonunu gizle
+    // Hide pause button
     pauseButton.style.display = "none";
     
-    // Oyun bitti ekranını göster
+    // Show game over screen
     setTimeout(() => {
         document.getElementById("gameOverScreen").style.display = "flex";
         document.getElementById("gameOverScreen").classList.add("active");
     }, 800);
     
-    // Animasyon döngüsünü durdur
+    // Stop the animation loop
     cancelAnimationFrame(animationFrameId);
     animationFrameId = null; // Clear the animation frame ID
 }
 
-// Mobil cihazlar için dokunma olaylarını izole et
+// Isolate touch events for mobile devices
 document.body.addEventListener('touchstart', function(e) {
     if (e.target === canvas || e.target.id === 'pauseButton' || 
         e.target.id === 'restartButton' || e.target.id === 'resumeButton') {
@@ -700,5 +699,5 @@ document.body.addEventListener('touchstart', function(e) {
     e.preventDefault();
 }, { passive: false });
 
-// Oyun yüklendiğinde başlat
+// Start the game when loaded
 window.addEventListener('load', init);
