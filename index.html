@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="tr">
+<html lang="en"></html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Pixel Jumper</title>
+    <title>⚖ Justice Jumper</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Bungee&family=Press+Start+2P&display=swap" rel="stylesheet">
     <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
@@ -12,54 +12,53 @@
     <div id="game-container">
         <canvas id="gameCanvas"></canvas>
         
-        <!-- Skor Göstergesi -->
+        <!-- Score Display -->
         <div id="scoreDisplay">0</div>
         
-        <!-- Başlangıç Ekranı -->
-        <div id="startScreen" class="overlay-screen">
+        <!-- Start Screen -->
+        <div id="startScreen" class="overlay-screen active">
             <div class="overlay-content">
-                <h1>Pixel Jumper</h1>
-                <p>Başlamak için dokunun veya tıklayın!</p>
+                <h1>Justice Jumper<br>⚖ </h1>
+                <p>Tap or click to start!</p>
                 <div class="controls-info">
-                    <p>Zıplamak için: Boşluk/Tıklama</p>
-                    <p>Duraklatmak için: ESC</p>
+                    <p><br>Use ESC to pause.</p>
                 </div>
             </div>
         </div>
         
-        <!-- Oyun Bitti Ekranı -->
+        <!-- Game Over Screen -->
         <div id="gameOverScreen" class="overlay-screen">
             <div class="overlay-content">
-                <h2>Oyun Bitti!</h2>
-                <p>Skor: <span id="finalScore">0</span></p>
-                <p>En Yüksek Skor: <span id="highScore">0</span></p>
-                <button id="restartButton">Tekrar Oyna</button>
+                <h2>Case Dismissed!</h2>
+                <p>Score: <span id="finalScore">0</span></p>
+                <p>Highest Score: <span id="highScore">0</span></p>
+                <button id="restartButton">Play Again</button>
             </div>
         </div>
         
-        <!-- Duraklatma Butonu -->
+        <!-- Pause Button -->
         <div id="pauseButton" class="game-button">
             <span>⏸️</span>
         </div>
         
-        <!-- Duraklatma Ekranı -->
+        <!-- Pause Screen -->
         <div id="pauseScreen" class="overlay-screen">
             <div class="overlay-content">
-                <h2>Oyun Duraklatıldı</h2>
-                <button id="resumeButton">Devam Et</button>
+                <h2>Court Adjourned</h2>
+                <button id="resumeButton">Continue</button>
             </div>
         </div>
         
-        <!-- Yükleme Ekranı -->
+        <!-- Loading Screen -->
         <div class="loading-screen overlay-screen" id="loadingScreen">
             <div class="overlay-content">
                 <div class="spinner"></div>
-                <p>Yükleniyor...</p>
+                <p>Loading...</p>
             </div>
         </div>
     </div>
     
-    <!-- Ses Dosyaları -->
+    <!-- Sound Files -->
     <audio id="jumpSound" src="sounds/jump.wav" preload="auto"></audio>
     <audio id="scoreSound" src="sounds/score.wav" preload="auto"></audio>
     <audio id="hitSound" src="sounds/hit.wav" preload="auto"></audio>

@@ -1,4 +1,4 @@
-/* Temel Stil Ayarları */
+/* Basic Style Settings */
 * {
     margin: 0;
     padding: 0;
@@ -11,7 +11,7 @@ html, body {
     width: 100%;
     height: 100%;
     overflow: hidden;
-    background: #1a1a1a; /* Koyu arka plan */
+    background: #1a1a1a; /* Dark background */
     font-family: 'Press Start 2P', cursive;
     color: #fff;
 }
@@ -24,7 +24,7 @@ body {
     padding: 20px;
 }
 
-/* Oyun Konteyneri */
+/* Game Container */
 #game-container {
     position: relative;
     width: 100%;
@@ -39,7 +39,7 @@ body {
     background-color: #352879;
 }
 
-/* Canvas Stili */
+/* Canvas Style */
 #gameCanvas {
     display: block;
     width: 100%;
@@ -48,7 +48,7 @@ body {
     image-rendering: crisp-edges;
 }
 
-/* Overlay Ekranları (Başlangıç, Duraklatma, Oyun Bitti) */
+/* Overlay Screens (Start, Pause, Game Over) */
 .overlay-screen {
     position: absolute;
     top: 0;
@@ -61,7 +61,7 @@ body {
     justify-content: center;
     align-items: center;
     text-align: center;
-    z-index: 100; /* Diğer elementlerden daha yüksek bir z-index */
+    z-index: 100; /* Higher z-index than other elements */
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -80,7 +80,7 @@ body {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
 }
 
-/* Başlık Stilleri */
+/* Title Styles */
 h1, h2 {
     font-size: 2.5rem;
     color: #ffcc00;
@@ -94,7 +94,7 @@ h1, h2 {
     50% { transform: translateY(-10px); }
 }
 
-/* Buton Stilleri */
+/* Button Styles */
 button {
     padding: 15px 30px;
     font-size: 1.2rem;
@@ -121,7 +121,7 @@ button:active {
     box-shadow: 0 2px 0 #cc9900;
 }
 
-/* Skor Göstergesi */
+/* Score Display */
 #scoreDisplay {
     position: absolute;
     top: 20px;
@@ -136,7 +136,7 @@ button:active {
     border-radius: 8px;
 }
 
-/* Duraklat Butonu */
+/* Pause Button */
 #pauseButton {
     position: absolute;
     top: 20px;
@@ -145,9 +145,9 @@ button:active {
     height: 50px;
     background: rgba(255, 255, 255, 0.8);
     border-radius: 50%;
-    display: flex;
+    display: flex; 
     justify-content: center;
-    align-items: center;
+    align-items: center; 
     cursor: pointer;
     font-size: 1.5rem;
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
@@ -160,7 +160,7 @@ button:active {
     background: rgba(255, 255, 255, 0.9);
 }
 
-/* Yükleme Ekranı */
+/* Loading Screen */
 .loading-screen .overlay-content {
     display: flex;
     flex-direction: column;
@@ -179,4 +179,77 @@ button:active {
 
 @keyframes spin {
     to { transform: rotate(360deg); }
+}
+
+/* Game Over Screen */
+.game-over-screen .overlay-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* Game Over Screen Score */
+#finalScore {
+    font-size: 1.5rem;
+    color: #ffcc00;
+    text-shadow: 2px 2px 0 #cc9900;
+}
+
+/* Game Over Screen Button */
+#restartButton {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-family: inherit;
+    background: #ffcc00;
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #cc9900;
+    box-shadow: 0 4px 0 #cc9900;
+    transition: all 0.2s ease;
+    margin-top: 20px;
+}
+
+#restartButton:hover {
+    background: #ffd633;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #cc9900;
+}
+
+#restartButton:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #cc9900;
+}
+
+/* High Score Screen */
+.high-score-screen .overlay-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+}
+
+/* High Score Screen Score */
+#highScore {
+    font-size: 1.5rem;
+    color: #ffcc00;
+    text-shadow: 2px 2px 0 #cc9900;
+}
+
+/* High Score Screen Button */
+#playAgainButton {
+    padding: 15px 30px;
+    font-size: 1.2rem;
+    font-family: inherit;
+    background: #ffcc00;
+    color: #333;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    text-shadow: 1px 1px 0 #cc9900;
+    box-shadow: 0 4px 0 #cc9900;
+    transition: all 0.2s ease;
+    margin-top: 20px;
 }
