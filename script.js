@@ -386,7 +386,7 @@ function drawBackground() {
         ctx.drawImage(sprites.background, 0, 0, canvas.width, canvas.height);
     } else {
         // Arcade tarzı piksel arka plan
-        ctx.fillStyle = "#352879"; // Koyu mavi
+        ctx.fillStyle = "#2b9ef4"; // Koyu mavi
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
         // Piksel yıldızlar
@@ -399,7 +399,7 @@ function drawBackground() {
         }
         
         // Arcade tarzı grid çizgileri
-        ctx.strokeStyle = "#4faef5";
+        ctx.strokeStyle = "#554CA8";
         ctx.lineWidth = 1;
         ctx.beginPath();
         for (let y = 0; y < ground.y; y += 30 * scale) {
