@@ -219,7 +219,11 @@ function addEventListeners() {
             player.y = Math.min(player.y, ground.y - player.radius);
         }
     });
-    
+
+    // Start screen
+    document.getElementById("startScreen").addEventListener("click", restartGame);
+    document.getElementById("startScreen").addEventListener("touchstart", restartGame, { passive: false });
+
     // Pause and resume buttons
     pauseButton.addEventListener("click", togglePause);
     pauseButton.addEventListener("touchstart", togglePause, { passive: false }); // Add touch event
