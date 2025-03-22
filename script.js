@@ -227,6 +227,8 @@ function addEventListeners() {
     // Pause and resume buttons
     pauseButton.addEventListener("click", togglePause);
     pauseButton.addEventListener("touchstart", togglePause, { passive: false }); // Add touch event
+    resumeButton.addEventListener("click", togglePause);
+    resumeButton.addEventListener("touchstart", togglePause, { passive: false }); // Add touch event
 
     // Restart button
     document.getElementById("restartButton").addEventListener("click", restartGame);
