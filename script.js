@@ -308,7 +308,7 @@ function startGame() {
     
     // Start the game loop
     lastTime = performance.now();
-    pauseButton.style.display = "block";
+    pauseButton.style.display = "flex";
     gameLoop();
 }
 
