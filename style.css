@@ -289,6 +289,20 @@ button:active {
 
 /* Media Queries */
 @media screen and (max-width: 768px) {
+    #gameCanvas {
+        image-rendering: -moz-crisp-edges;
+        image-rendering: -webkit-optimize-contrast;
+        image-rendering: pixelated;
+        -ms-interpolation-mode: nearest-neighbor;
+    }
+    
+    body {
+        touch-action: manipulation;
+        -webkit-touch-callout: none;
+        -webkit-user-select: none;
+        user-select: none; /* Standard property for compatibility */
+    }
+
     body {
       padding: 10px;
       touch-action: manipulation;
