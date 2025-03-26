@@ -170,9 +170,10 @@ function updateCanvasSize() {
     const containerWidth = container.clientWidth;
     const containerHeight = container.clientHeight;
     
-    // Calculate ratio with reference dimensions
-    const baseWidth = 400;
-    const baseHeight = 600;
+    // Different aspect ratio for mobile devices
+    const isMobile = window.innerWidth <= 768;
+    const baseWidth = isMobile ? 350 : 400;
+    const baseHeight = isMobile ? 500 : 600;
     
     // Maintain aspect ratio
     const aspectRatio = baseWidth / baseHeight;
@@ -374,8 +375,7 @@ function gameLoop(timestamp) {
     // Check collisions
     checkCollisions();
     
-    // Draw the score
-    drawScore();
+   
     
     // Increase difficulty
     if (score > 0 && score % 10 === 0) {
@@ -405,7 +405,7 @@ function drawBackground() {
         }
         
         // Arcade style grid lines
-        ctx.strokeStyle = "#554CA8";
+        ctx.strokeStyle = "#4169e1";
         ctx.lineWidth = 1;
         ctx.beginPath();
         for (let y = 0; y < ground.y; y += 30 * scale) {

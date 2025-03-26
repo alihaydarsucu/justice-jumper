@@ -121,7 +121,7 @@ button:active {
     box-shadow: 0 2px 0 #cc9900;
 }
 
-/* Pause Ekranı */
+/* Pause Screen */
 #pauseScreen {
     position: absolute;
     top: 0;
@@ -130,11 +130,11 @@ button:active {
     height: 100%;
     background: rgba(0, 0, 0, 0.8);
     backdrop-filter: blur(5px);
-    display: none; /* Başlangıçta gizli */
+    display: none; /* Hidden at the start */
     justify-content: center;
     align-items: center;
     text-align: center;
-    z-index: 200; /* Diğer elementlerden daha yüksek */
+    z-index: 200; /* Upper than other elements*/
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.3s ease, visibility 0.3s ease;
@@ -144,6 +144,15 @@ button:active {
     opacity: 1;
     visibility: visible;
 }
+
+#pauseScreen .overlay-content {
+    background: rgba(0, 0, 0, 0.9);
+    padding: 30px;
+    border-radius: 15px;
+    border: 2px solid #554CA8;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
 
 /* Score Display */
 #scoreDisplay {
@@ -277,3 +286,74 @@ button:active {
     transition: all 0.2s ease;
     margin-top: 20px;
 }
+
+/* Media Queries */
+@media screen and (max-width: 768px) {
+    body {
+      padding: 10px;
+      touch-action: manipulation;
+    }
+  
+    #game-container {
+      height: 85vh;
+      max-height: none;
+      border-width: 2px;
+    }
+  
+    h1, h2 {
+      font-size: 1.8rem;
+      text-shadow: 2px 2px 0 #cc9900;
+    }
+  
+    button {
+      padding: 12px 24px;
+      font-size: 1rem;
+    }
+  
+    #pauseButton {
+      width: 40px;
+      height: 40px;
+      font-size: 1.2rem;
+    }
+  
+    #scoreDisplay {
+      font-size: 1.5rem;
+      padding: 8px 16px;
+    }
+  }
+  
+  @media screen and (max-width: 480px) {
+    #game-container {
+      height: 80vh;
+    }
+  
+    h1, h2 {
+      font-size: 1.5rem;
+    }
+  
+    .overlay-content {
+      padding: 20px;
+      width: 90%;
+    }
+  
+    button {
+      padding: 10px 20px;
+      font-size: 0.9rem;
+    }
+  
+    #gameCanvas {
+      --player-scale: 0.8;
+    }
+  }
+
+  @media screen and (max-height: 500px) {
+    #game-container {
+      height: 95vh;
+      max-width: 90vw;
+    }
+  
+    h1, h2 {
+      font-size: 1.5rem;
+    }
+}
+
