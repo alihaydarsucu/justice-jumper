@@ -98,7 +98,7 @@ function loadImages() {
     // Player running frames
     for (let i = 0; i < 4; i++) {
         sprites.player[i] = new Image();
-        sprites.player[i].src = `images/player${i}.png`;
+        sprites.player[i].src = `Images/player${i}.png`;
         sprites.player[i].onload = resourceLoaded;
         // Error handling if image cannot be loaded
         sprites.player[i].onerror = () => {
@@ -110,7 +110,7 @@ function loadImages() {
     // Player jumping frames
     for (let i = 0; i < 2; i++) {
         sprites.playerJump[i] = new Image();
-        sprites.playerJump[i].src = `images/playerJump${i}.png`;
+        sprites.playerJump[i].src = `Images/playerJump${i}.png`;
         sprites.playerJump[i].onload = resourceLoaded;
         sprites.playerJump[i].onerror = () => {
             resourcesLoaded++;
@@ -120,7 +120,7 @@ function loadImages() {
     
     // Pipe images
     sprites.pipeTop = new Image();
-    sprites.pipeTop.src = "images/pipeTop.png";
+    sprites.pipeTop.src = "Images/pipeTop.png";
     sprites.pipeTop.onload = resourceLoaded;
     sprites.pipeTop.onerror = () => {
         resourcesLoaded++;
@@ -128,7 +128,7 @@ function loadImages() {
     };
     
     sprites.pipeBottom = new Image();
-    sprites.pipeBottom.src = "images/pipeBottom.png";
+    sprites.pipeBottom.src = "Images/pipeBottom.png";
     sprites.pipeBottom.onload = resourceLoaded;
     sprites.pipeBottom.onerror = () => {
         resourcesLoaded++;
@@ -137,7 +137,7 @@ function loadImages() {
     
     // Background and ground
     sprites.background = new Image();
-    sprites.background.src = "images/background.png";
+    sprites.background.src = "Images/background.png";
     sprites.background.onload = resourceLoaded;
     sprites.background.onerror = () => {
         resourcesLoaded++;
@@ -145,7 +145,7 @@ function loadImages() {
     };
     
     sprites.ground = new Image();
-    sprites.ground.src = "images/ground.png";
+    sprites.ground.src = "Images/ground.png";
     sprites.ground.onload = resourceLoaded;
     sprites.ground.onerror = () => {
         resourcesLoaded++;
@@ -404,15 +404,6 @@ function drawBackground() {
             ctx.fillRect(x, y, size, size);
         }
         
-        // Arcade style grid lines
-        ctx.strokeStyle = "#4169e1";
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        for (let y = 0; y < ground.y; y += 30 * scale) {
-            ctx.moveTo(0, y);
-            ctx.lineTo(canvas.width, y);
-        }
-        ctx.stroke();
     }
 }
 
