@@ -388,7 +388,7 @@ function gameLoop(timestamp) {
 
 // Draw the background
 function drawBackground() {
-    if (sprites.ready && sprites.background.complete) {
+    if (sprites.background.complete) {
         ctx.drawImage(sprites.background, 0, 0, canvas.width, canvas.height);
     } else {
         // Arcade style pixel background
