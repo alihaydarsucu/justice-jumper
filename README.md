@@ -57,8 +57,6 @@ Here is our detailed project structure:
 │   │-- player3.png
 │   │-- playerJump0.png
 │   │-- playerJump1.png
-│   │-- pipeTop.png
-│   │-- pipeBottom.png
 │   │-- background.png
 │   │-- ground.png
 │-- /sounds
