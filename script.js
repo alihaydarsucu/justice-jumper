@@ -26,7 +26,7 @@ const BOOK_SETTINGS = {
 
 const MOBILE_SETTINGS = {
     pipeSpeed: 1.8,       // Base speed (px/frame)
-    pipeSpawnRate: 1800,  // Milliseconds between pipes
+    pipeSpawnRate: 1900,  // Milliseconds between pipes
     player: {
         gravity: 0.22,    // Fall speed
         lift: -5.5        // Jump strength (negative = upward)
@@ -327,7 +327,7 @@ function startGame() {
     pipeSpawnRate = MOBILE_SETTINGS.pipeSpawnRate;
     player.gravity = MOBILE_SETTINGS.player.gravity * scale;
     player.lift = MOBILE_SETTINGS.player.lift * scale;
-    ground.speed = 1.5 * scale;
+    ground.speed = 2.5 * scale;
     difficulty = 1;
     
     // Update score display
