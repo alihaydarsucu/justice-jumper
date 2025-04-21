@@ -409,7 +409,7 @@ function drawBackground() {
 
 // Draw the ground
 function drawGround() {
-    if (sprites.ready && sprites.ground.complete) {
+    if (sprites.ground.complete) {
         // Scroll the ground
         ground.x = (ground.x - ground.speed) % (50 * scale);
         
