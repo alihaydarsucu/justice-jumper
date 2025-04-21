@@ -9,6 +9,30 @@ const pauseScreen = document.getElementById("pauseScreen");
 const resumeButton = document.getElementById("resumeButton");
 const loadingScreen = document.getElementById("loadingScreen");
 
+const BOOK_SETTINGS = {
+    thickness: {
+        min: 0.1,    // Min % of pipe height (10%)
+        max: 0.2,     // Max % of pipe height (40%)
+        absoluteMin: 15 // Minimum pixels
+    },
+    width: {
+        min: 0.7,     // Min % of pipe width (70%)
+        max: 1.0      // Max % of pipe width (100%)
+    },
+    perspective: {
+        maxOffset: 4  // Max perspective slant in pixels
+    }
+};
+
+const MOBILE_SETTINGS = {
+    pipeSpeed: 1.8,       // Base speed (px/frame)
+    pipeSpawnRate: 1800,  // Milliseconds between pipes
+    player: {
+        gravity: 0.22,    // Fall speed
+        lift: -5.5        // Jump strength (negative = upward)
+    }
+};
+
 // Sound effects
 const jumpSound = document.getElementById("jumpSound");
 const scoreSound = document.getElementById("scoreSound");
@@ -299,7 +323,10 @@ function startGame() {
     player.y = canvasHeight / 2;
     player.velocity = 0;
     player.rotation = 0;
-    pipeSpeed = 1.5 * scale;
+    pipeSpeed = MOBILE_SETTINGS.pipeSpeed * scale;
+    pipeSpawnRate = MOBILE_SETTINGS.pipeSpawnRate;
+    player.gravity = MOBILE_SETTINGS.player.gravity * scale;
+    player.lift = MOBILE_SETTINGS.player.lift * scale;
     ground.speed = 1.5 * scale;
     difficulty = 1;
     
@@ -591,12 +618,12 @@ function drawPipes() {
 function drawLawBookStack(ctx, x, y, width, height, pipe) {
     const titles = ["CIVIL", "LEGAL", "CRIMINAL", "CONSTITUTIONAL", "PROPERTY", "CONTRACTS", "ADMINISTRATIVE"];
     const colorSets = [
-        ["#0A5C36", "#145A32", "#1E8449"],
-        ["#3A0C3B", "#4A235A", "#5B2C6F"],
-        ["#5C1B1B", "#78281F", "#922B21"],
-        ["#0B3866", "#154360", "#1F618D"],
-        ["#5C3317", "#6E2C00", "#7D6608"],
-        ["#2F4F4F", "#34495E", "#21618C"]
+        ["#0A5C36", "#1E8449", "#27AE60"], // Greens
+        ["#3A0C3B", "#5B2C6F", "#8E44AD"], // Purples
+        ["#5C1B1B", "#922B21", "#C0392B"], // Reds
+        ["#0B3866", "#1F618D", "#3498DB"], // Blues
+        ["#5C3317", "#7D6608", "#B7950B"], // Browns
+        ["#2F4F4F", "#21618C", "#5D6D7E"]  // Slates
     ];
 
     const rand = (seed, max = 1, min = 0) => {
@@ -606,108 +633,174 @@ function drawLawBookStack(ctx, x, y, width, height, pipe) {
 
     let currentY = y;
     let colorIndex = Math.floor(rand(pipe.colorSeed) * colorSets.length);
-    let colorShift = 0;
-    let lastColorIndex = pipe.lastColorIndex;
+    let lastColor = null;
+    let bookCount = 0;
 
     while (currentY < y + height - 2) {
-        // Use let instead of const since we might modify it
+        bookCount++;
+        // More dramatic width variation (70%-100% of pipe width)
+        const widthVariation = 0.7 + rand(pipe.seed + bookCount) * 0.3;
         let bookHeight = Math.max(
-            15,
-            height * (0.1 + rand(pipe.seed + currentY) * 0.5)
+            BOOK_SETTINGS.thickness.absoluteMin,
+            height * (BOOK_SETTINGS.thickness.min + 
+                     rand(pipe.seed + currentY) * 
+                     (BOOK_SETTINGS.thickness.max - BOOK_SETTINGS.thickness.min))
         );
         
-        // Adjust last book to fill space
-        if (currentY + bookHeight > y + height - 5) {
-            bookHeight = y + height - currentY;
-        }
+        let bookWidth = width * 
+            (BOOK_SETTINGS.width.min + 
+             rand(pipe.seed + bookCount) * 
+             (BOOK_SETTINGS.width.max - BOOK_SETTINGS.width.min));
+        
+        let perspective = rand(pipe.seed + currentY) * BOOK_SETTINGS.perspective.maxOffset;
+        const bookX = x + perspective;
 
-        const perspective = 3 + rand(pipe.seed + currentY) * 5;
-        const bookWidth = width - perspective;
-
+        // Get color different from previous
         let colors = colorSets[colorIndex % colorSets.length];
         let color;
         let attempts = 0;
         
         do {
-            color = colors[Math.floor(rand(pipe.colorSeed + colorShift) * colors.length)];
-            colorShift++;
+            color = colors[Math.floor(rand(pipe.colorSeed + bookCount + attempts) * colors.length)];
             attempts++;
-            
             if (attempts > 10) {
                 colorIndex = (colorIndex + 1) % colorSets.length;
                 colors = colorSets[colorIndex];
                 color = colors[0];
                 break;
             }
-        } while (colorIndex === lastColorIndex);
+        } while (color === lastColor);
 
-        lastColorIndex = colorIndex;
+        lastColor = color;
         
-        const showTitle = (currentY === y) || (rand(pipe.seed + currentY) > 0.6);
-        const title = titles[Math.floor(rand(pipe.seed + currentY) * titles.length)];
+        // Determine title (only if enough space)
+        const showTitle = (currentY === y) || (rand(pipe.seed + currentY) > 0.7);
+        const title = showTitle ? titles[Math.floor(rand(pipe.seed + currentY) * titles.length)] : null;
 
         drawLawBook(
             ctx,
-            x + perspective/2,
+            bookX,
             currentY,
             bookWidth,
             bookHeight,
-            showTitle ? title : null,
-            color
+            title,
+            color,
+            perspective
         );
 
         currentY += bookHeight;
         
-        if (rand(pipe.colorSeed + currentY) > 0.7) {
+        // Change color set occasionally
+        if (rand(pipe.colorSeed + currentY) > 0.8) {
             colorIndex = (colorIndex + 1) % colorSets.length;
         }
     }
-    
-    pipe.lastColorIndex = lastColorIndex;
 }
 
-function drawLawBook(ctx, x, y, width, height, title, color) {
-    // Main book cover (ensure opaque)
-    ctx.fillStyle = color;
-    ctx.fillRect(x, y, width * 0.85, height);
+function drawLawBook(ctx, x, y, width, height, title, color, perspective) {
+    // 1. Calculate 3D points
+    const frontBottom = { x: x + perspective/2, y: y + height };
+    const frontTop = { x: x, y: y };
+    const backTop = { x: x + width * 0.85, y: y };
+    const backBottom = { x: x + width * 0.85 + perspective/2, y: y + height };
+    const pagesTop = { x: x + width, y: y };
+    const pagesBottom = { x: x + width, y: y + height };
+
+    // 2. Draw book cover with shading
+    ctx.fillStyle = shadeColor(color, -15); // Darker shade
+    ctx.beginPath();
+    ctx.moveTo(frontTop.x, frontTop.y);
+    ctx.lineTo(backTop.x, backTop.y);
+    ctx.lineTo(backBottom.x, backBottom.y);
+    ctx.lineTo(frontBottom.x, frontBottom.y);
+    ctx.closePath();
+    ctx.fill();
+
+    // 3. Draw pages with gradient
+    const pagesGradient = ctx.createLinearGradient(
+        backTop.x, backTop.y,
+        pagesTop.x, pagesTop.y
+    );
+    pagesGradient.addColorStop(0, "#F5F5DC"); // Parchment
+    pagesGradient.addColorStop(1, "#E8E8CC"); // Slightly darker
     
-    // Pages edge
-    ctx.fillStyle = "#F5F5DC";
-    ctx.fillRect(x + width * 0.85, y, width * 0.15, height);
+    ctx.fillStyle = pagesGradient;
+    ctx.beginPath();
+    ctx.moveTo(backTop.x, backTop.y);
+    ctx.lineTo(pagesTop.x, pagesTop.y);
+    ctx.lineTo(pagesBottom.x, pagesBottom.y);
+    ctx.lineTo(backBottom.x, backBottom.y);
+    ctx.closePath();
+    ctx.fill();
+
+    // 4. Add spine with shadow
+    ctx.fillStyle = shadeColor(color, -30);
+    ctx.fillRect(x, y, 4, height);
     
+    // 5. Add depth highlights
+    ctx.strokeStyle = shadeColor(color, 20);
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    ctx.moveTo(frontTop.x, frontTop.y);
+    ctx.lineTo(backTop.x, backTop.y);
+    ctx.stroke();
+
     // Title (if specified and enough space)
-    if (title && height > 12) {
+    if (title && height > 14) {
         ctx.fillStyle = "#FFD700";
         ctx.strokeStyle = "#000";
         ctx.lineWidth = 2;
         ctx.textAlign = "center";
         ctx.textBaseline = "middle";
         
-        // Dynamic font sizing
+        // Smart font sizing
         const maxWidth = width * 0.8;
-        let fontSize = Math.min(16, height * 0.6);
+        let fontSize = Math.min(16, height * 0.5);
         
         ctx.font = `bold ${fontSize}px 'Press Start 2P'`;
-        while (ctx.measureText(title).width > maxWidth && fontSize > 6) {
-            fontSize -= 1;
-            ctx.font = `bold ${fontSize}px 'Press Start 2P'`;
-        }
+        let textWidth;
+        
+        // Ensure text fits
+        do {
+            textWidth = ctx.measureText(title).width;
+            if (textWidth > maxWidth && fontSize > 6) {
+                fontSize -= 1;
+                ctx.font = `bold ${fontSize}px 'Press Start 2P'`;
+            } else {
+                break;
+            }
+        } while (true);
         
         // Draw with outline
-        ctx.strokeText(title, x + (width * 0.85)/2, y + height/2);
-        ctx.fillText(title, x + (width * 0.85)/2, y + height/2);
+        const centerX = x + (width * 0.85)/2 + perspective/4;
+        const centerY = y + height/2;
+        ctx.strokeText(title, centerX, centerY);
+        ctx.fillText(title, centerX, centerY);
     }
-    
-    // Spine details
-    ctx.strokeStyle = "rgba(0,0,0,0.3)";
+
+    // Pages lines
+    ctx.strokeStyle = "rgba(0,0,0,0.1)";
     ctx.lineWidth = 1;
-    const lineSpacing = Math.max(5, height/4);
-    for (let ly = y + 3; ly < y + height - 3; ly += lineSpacing) {
+    const lineSpacing = Math.max(4, height/5);
+    for (let ly = y + 2; ly < y + height - 2; ly += lineSpacing) {
         ctx.beginPath();
-        ctx.moveTo(x + 2, ly);
-        ctx.lineTo(x + width * 0.83, ly);
+        ctx.moveTo(x + 5, ly);
+        ctx.lineTo(x + width * 0.85 - 2, ly);
         ctx.stroke();
     }
+}
+
+// Helper function to shade colors
+function shadeColor(color, percent) {
+    let R = parseInt(color.substring(1,3), 16);
+    let G = parseInt(color.substring(3,5), 16);
+    let B = parseInt(color.substring(5,7), 16);
+
+    R = Math.min(255, R + R * percent / 100);
+    G = Math.min(255, G + G * percent / 100);
+    B = Math.min(255, B + B * percent / 100);
+
+    return `#${(1 << 24 | R << 16 | G << 8 | B).toString(16).slice(1)}`;
 }
 
 
