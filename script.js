@@ -100,10 +100,10 @@ function loadImages() {
         sprites.player[i] = new Image();
         sprites.player[i].src = `Images/player${i}.png`;
         sprites.player[i].onload = resourceLoaded;
-        // Error handling if image cannot be loaded
         sprites.player[i].onerror = () => {
-            resourcesLoaded++;
-            console.log("Player image could not be loaded, default will be used");
+            console.log(`Player image ${i} failed to load, using fallback`);
+            sprites.player[i] = null; // Mark as failed
+            resourceLoaded();
         };
     }
     
@@ -113,14 +113,16 @@ function loadImages() {
         sprites.playerJump[i].src = `Images/playerJump${i}.png`;
         sprites.playerJump[i].onload = resourceLoaded;
         sprites.playerJump[i].onerror = () => {
-            resourcesLoaded++;
-            console.log("Jump image could not be loaded, default will be used");
+            console.log(`Jump image ${i} failed to load, using fallback`);
+            sprites.playerJump[i] = null; // Mark as failed
+            resourceLoaded();
         };
     }
     
+        
     // Pipe images
     sprites.pipeTop = new Image();
-    sprites.pipeTop.src = "Images/pipeTop.png";
+    sprites.pipeTop.src = "Images/pipe.png";
     sprites.pipeTop.onload = resourceLoaded;
     sprites.pipeTop.onerror = () => {
         resourcesLoaded++;
@@ -128,13 +130,13 @@ function loadImages() {
     };
     
     sprites.pipeBottom = new Image();
-    sprites.pipeBottom.src = "Images/pipeBottom.png";
+    sprites.pipeBottom = sprites.pipeTop;  // Same image for bottom pipe
     sprites.pipeBottom.onload = resourceLoaded;
     sprites.pipeBottom.onerror = () => {
         resourcesLoaded++;
         console.log("Pipe image could not be loaded, default will be used");
     };
-    
+
     // Background and ground
     sprites.background = new Image();
     sprites.background.src = "Images/background.png";
@@ -456,13 +458,17 @@ function drawPlayer() {
     ctx.save();
     ctx.translate(player.x, player.y);
     
-    if (sprites.ready) {
-        // Use different sprite based on jump state
+    // Check if we should use sprite or fallback
+    const useSprite = sprites.ready && 
+                     ((player.isJumping && sprites.playerJump[player.frame % 2]?.complete) ||
+                     (!player.isJumping && sprites.player[player.frame]?.complete));
+    
+    if (useSprite) {
         const sprite = player.isJumping ? 
             sprites.playerJump[player.frame % 2] : 
             sprites.player[player.frame];
             
-        if (sprite && sprite.complete) {
+        try {
             ctx.drawImage(
                 sprite,
                 -player.width / 2,
@@ -470,7 +476,8 @@ function drawPlayer() {
                 player.width,
                 player.height
             );
-        } else {
+        } catch (e) {
+            console.log("Sprite drawing failed, falling back:", e);
             drawDefaultPlayer();
         }
     } else {
@@ -482,7 +489,7 @@ function drawPlayer() {
 
 // Default player drawing
 function drawDefaultPlayer() {
-    // Arcade style pixel player
+    // Body
     ctx.fillStyle = "#FF5555";
     ctx.beginPath();
     ctx.arc(0, 0, player.radius, 0, Math.PI * 2);
@@ -495,7 +502,7 @@ function drawDefaultPlayer() {
     ctx.arc(8 * scale, -8 * scale, 3 * scale, 0, Math.PI * 2);
     ctx.fill();
     
-    // Smile
+    // Mouth
     ctx.strokeStyle = "#FFFFFF";
     ctx.lineWidth = 2 * scale;
     ctx.beginPath();
@@ -549,47 +556,161 @@ function generatePipe() {
         topHeight: height,
         bottomY: height + pipeGap * scale,
         bottomHeight: canvas.height - height - pipeGap * scale - ground.height * scale,
-        passed: false
+        passed: false,
+        seed: Math.floor(Math.random() * 10000),
+        colorSeed: Math.floor(Math.random() * 10000),
+        lastColorIndex: -1 // Track last used color
     });
 }
 
 // Draw pipes
 function drawPipes() {
-    for (let pipe of pipes) {
-        if (sprites.ready && sprites.pipeTop.complete && sprites.pipeBottom.complete) {
-            // Top pipe
-            ctx.drawImage(
-                sprites.pipeTop,
-                pipe.x,
-                pipe.y + pipe.topHeight - (sprites.pipeTop.height * scale),
-                pipeWidth * scale,
-                sprites.pipeTop.height * scale
-            );
-            
-            // Bottom pipe
-            ctx.drawImage(
-                sprites.pipeBottom,
-                pipe.x,
-                pipe.bottomY,
-                pipeWidth * scale,
-                sprites.pipeBottom ? sprites.pipeBottom.height * scale : pipe.bottomHeight
-            );
-        } else {
-            // Arcade style pixel pipes
-            ctx.fillStyle = "#55AA55";
-            // Top pipe
-            ctx.fillRect(pipe.x, pipe.y, pipeWidth * scale, pipe.topHeight);
-            // Bottom pipe
-            ctx.fillRect(pipe.x, pipe.bottomY, pipeWidth * scale, pipe.bottomHeight);
-            
-            // Pipe edges
-            ctx.strokeStyle = "#338833";
-            ctx.lineWidth = 2 * scale;
-            ctx.strokeRect(pipe.x, pipe.y, pipeWidth * scale, pipe.topHeight);
-            ctx.strokeRect(pipe.x, pipe.bottomY, pipeWidth * scale, pipe.bottomHeight);
-        }
+    for (const pipe of pipes) {
+        // Top stack
+        drawLawBookStack(
+            ctx,
+            pipe.x,
+            0,
+            pipeWidth * scale,
+            pipe.topHeight,
+            pipe // Pass the whole pipe object
+        );
+        
+        // Bottom stack
+        drawLawBookStack(
+            ctx,
+            pipe.x,
+            pipe.bottomY,
+            pipeWidth * scale,
+            pipe.bottomHeight,
+            pipe // Pass the same pipe object
+        );
     }
 }
+
+function drawLawBookStack(ctx, x, y, width, height, pipe) {
+    const titles = ["CIVIL", "LEGAL", "CRIMINAL", "CONSTITUTIONAL", "PROPERTY", "CONTRACTS", "ADMINISTRATIVE"];
+    const colorSets = [
+        ["#0A5C36", "#145A32", "#1E8449"],
+        ["#3A0C3B", "#4A235A", "#5B2C6F"],
+        ["#5C1B1B", "#78281F", "#922B21"],
+        ["#0B3866", "#154360", "#1F618D"],
+        ["#5C3317", "#6E2C00", "#7D6608"],
+        ["#2F4F4F", "#34495E", "#21618C"]
+    ];
+
+    const rand = (seed, max = 1, min = 0) => {
+        seed = (seed * 9301 + 49297) % 233280;
+        return min + (seed / 233280) * (max - min);
+    };
+
+    let currentY = y;
+    let colorIndex = Math.floor(rand(pipe.colorSeed) * colorSets.length);
+    let colorShift = 0;
+    let lastColorIndex = pipe.lastColorIndex;
+
+    while (currentY < y + height - 2) {
+        // Use let instead of const since we might modify it
+        let bookHeight = Math.max(
+            15,
+            height * (0.1 + rand(pipe.seed + currentY) * 0.5)
+        );
+        
+        // Adjust last book to fill space
+        if (currentY + bookHeight > y + height - 5) {
+            bookHeight = y + height - currentY;
+        }
+
+        const perspective = 3 + rand(pipe.seed + currentY) * 5;
+        const bookWidth = width - perspective;
+
+        let colors = colorSets[colorIndex % colorSets.length];
+        let color;
+        let attempts = 0;
+        
+        do {
+            color = colors[Math.floor(rand(pipe.colorSeed + colorShift) * colors.length)];
+            colorShift++;
+            attempts++;
+            
+            if (attempts > 10) {
+                colorIndex = (colorIndex + 1) % colorSets.length;
+                colors = colorSets[colorIndex];
+                color = colors[0];
+                break;
+            }
+        } while (colorIndex === lastColorIndex);
+
+        lastColorIndex = colorIndex;
+        
+        const showTitle = (currentY === y) || (rand(pipe.seed + currentY) > 0.6);
+        const title = titles[Math.floor(rand(pipe.seed + currentY) * titles.length)];
+
+        drawLawBook(
+            ctx,
+            x + perspective/2,
+            currentY,
+            bookWidth,
+            bookHeight,
+            showTitle ? title : null,
+            color
+        );
+
+        currentY += bookHeight;
+        
+        if (rand(pipe.colorSeed + currentY) > 0.7) {
+            colorIndex = (colorIndex + 1) % colorSets.length;
+        }
+    }
+    
+    pipe.lastColorIndex = lastColorIndex;
+}
+
+function drawLawBook(ctx, x, y, width, height, title, color) {
+    // Main book cover (ensure opaque)
+    ctx.fillStyle = color;
+    ctx.fillRect(x, y, width * 0.85, height);
+    
+    // Pages edge
+    ctx.fillStyle = "#F5F5DC";
+    ctx.fillRect(x + width * 0.85, y, width * 0.15, height);
+    
+    // Title (if specified and enough space)
+    if (title && height > 12) {
+        ctx.fillStyle = "#FFD700";
+        ctx.strokeStyle = "#000";
+        ctx.lineWidth = 2;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        
+        // Dynamic font sizing
+        const maxWidth = width * 0.8;
+        let fontSize = Math.min(16, height * 0.6);
+        
+        ctx.font = `bold ${fontSize}px 'Press Start 2P'`;
+        while (ctx.measureText(title).width > maxWidth && fontSize > 6) {
+            fontSize -= 1;
+            ctx.font = `bold ${fontSize}px 'Press Start 2P'`;
+        }
+        
+        // Draw with outline
+        ctx.strokeText(title, x + (width * 0.85)/2, y + height/2);
+        ctx.fillText(title, x + (width * 0.85)/2, y + height/2);
+    }
+    
+    // Spine details
+    ctx.strokeStyle = "rgba(0,0,0,0.3)";
+    ctx.lineWidth = 1;
+    const lineSpacing = Math.max(5, height/4);
+    for (let ly = y + 3; ly < y + height - 3; ly += lineSpacing) {
+        ctx.beginPath();
+        ctx.moveTo(x + 2, ly);
+        ctx.lineTo(x + width * 0.83, ly);
+        ctx.stroke();
+    }
+}
+
+
 // Check collisions
 function checkCollisions() {
     // Collision with the ground
