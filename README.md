@@ -39,7 +39,17 @@ You can play it via this link: [⚖ Justice Jumper](https://alihaydarsucu.github
 - 🎯 Try to win as many cases as possible.
 - ⏸ Press **ESC** to pause the game (**"Court Adjourned"** message will appear).
 
-## 🏛️ Project Structure
+## 📐 Game Architecture
+
+### 🔗 Function Dependency Map
+
+![Dependency Map](Images/Diagrams/dependency_diagram.png)
+
+## 📊 Function Call Flow
+
+**Click to see:** [Function Call](Images/Diagrams/function_call_diagram.png)
+
+### 🏛️ Project Structure
 
 Here is our detailed project structure:
 
@@ -55,8 +65,6 @@ Here is our detailed project structure:
 │   │-- player1.png
 │   │-- player2.png
 │   │-- player3.png
-│   │-- playerJump0.png
-│   │-- playerJump1.png
 │   │-- background.png
 │   │-- ground.png
 │-- /sounds
