@@ -45,7 +45,7 @@ You can play it via this link: [⚖ Justice Jumper](https://alihaydarsucu.github
 
 ![Dependency Map](Images/Diagrams/dependency_diagram.png)
 
-## 📊 Function Call Flow
+### 📊 Function Call Flow
 
 **Click to see:** [Function Call](Images/Diagrams/function_call_diagram.png)
 
