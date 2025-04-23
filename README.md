@@ -2,7 +2,7 @@
 
 **Justice Jumper** is a Flappy Bird-inspired arcade game reimagined with a legal theme. Players take on the role of a young **law student** who must jump over obstacles (law books) to win cases and progress in their legal career. 📜✨
 
-You can play it via this link: [⚖ Justice Jumper](https://alihaydarsucu.github.io/pixel-jumper/)
+You can play it via this link: [⚖ Justice Jumper](https://alihaydarsucu.github.io/justice-jumper/)
 
 ## 🌟 Features
 
@@ -22,7 +22,7 @@ You can play it via this link: [⚖ Justice Jumper](https://alihaydarsucu.github
 
 1. Clone this repository:
    ```sh
-   git clone https://github.com/alihaydarsucu/pixel-jumper.git
+   git clone https://github.com/alihaydarsucu/justice-jumper.git
    ```
 2. Navigate to the project directory:
    ```sh
