@@ -356,6 +356,29 @@ function restartGame() {
     startGame();
 }
 
+
+// Show birthday message if today is her birthday
+function showBirthdayMessage() {
+    const birthdayOverlay = document.createElement('div');
+    birthdayOverlay.className = 'overlay-screen active';
+    birthdayOverlay.id = 'birthdayScreen';
+    
+    birthdayOverlay.innerHTML = `
+        <div class="overlay-content birthday-content">
+            <h2>Happy Birthday Cemre!</h2>
+            <p>Wishing you success in all your legal endeavors!</p>
+            <div class="cake">🎂</div>
+            <button id="birthdayCloseBtn">Thank You!</button>
+        </div>
+    `;
+    
+    document.getElementById('game-container').appendChild(birthdayOverlay);
+    
+    document.getElementById('birthdayCloseBtn').addEventListener('click', () => {
+        birthdayOverlay.remove();
+    });
+}
+
 // Pause the game
 function togglePause() {
     if (!gameRunning || gameOver) return;
@@ -901,6 +924,14 @@ function endGame() {
         document.getElementById("gameOverScreen").style.display = "flex";
         document.getElementById("gameOverScreen").classList.add("active");
     }, 800);
+
+    // Check if it's her birthday
+    const today = new Date();
+    const isBirthday = today.getMonth() === 3 && today.getDate() === 23; // Example: April 23
+    
+    if (isBirthday) {
+        showBirthdayMessage();
+    }
     
     // Stop the animation loop
     cancelAnimationFrame(animationFrameId);
