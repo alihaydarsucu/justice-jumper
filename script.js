@@ -284,14 +284,21 @@ function handleTouch(event) {
 
 // Control with keyboard
 function handleKeyDown(event) {
-    if (event.code === "Space") {
+    if (event.code === "Enter") {
+        if (gamePaused) {
+            resumeGame();
+        } else if (gameOver) {
+            restartGame();
+        }
+    } else if (event.code === "Space") {
         event.preventDefault();
         if (!gameRunning && !gameOver) {
             startGame();
         } else if (!gamePaused && gameRunning) {
             playerJump();
         }
-    } else if (event.code === "Escape") {
+    }
+    else if (event.code === "Escape") { 
         if (gameRunning) togglePause();
     }
 }
@@ -860,8 +867,8 @@ function increaseDifficulty() {
     if (difficulty >= score / 10) return;
     
     difficulty = Math.floor(score / 10) + 1;
-    pipeSpeed = Math.min(6, 1.5 + (difficulty * 0.2)) * scale;
-    pipeSpawnRate = Math.max(1000, 2000 - (difficulty * 50));
+    pipeSpeed = Math.min(6, 1.5 + (difficulty * 0.4)) * scale;
+    pipeSpawnRate = Math.max(1000, 2000 - (difficulty * 100));
 }
 
 // End the game
