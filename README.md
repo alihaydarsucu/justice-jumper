@@ -26,7 +26,7 @@ You can play it via this link: [⚖ Justice Jumper](https://alihaydarsucu.github
    ```
 2. Navigate to the project directory:
    ```sh
-   cd pixel-jumper
+   cd justice-jumper
    ```
 3. Open `index.html` in your preferred browser to start playing.
 
