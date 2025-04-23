@@ -289,56 +289,48 @@ button:active {
 
 /* Media Queries */
 @media screen and (max-width: 768px) {
-    #gameCanvas {
-        image-rendering: -moz-crisp-edges;
-        image-rendering: -webkit-optimize-contrast;
-        image-rendering: pixelated;
-        -ms-interpolation-mode: nearest-neighbor;
-    }
-    
     body {
         touch-action: manipulation;
-        -webkit-touch-callout: none;
-        -webkit-user-select: none;
-        user-select: none;
-        padding: 10px;
-        /* SADECE MOBİLDE: Canvas'ı yukarı çek */
         justify-content: flex-start;
-        padding-top: 5vh; /* Ekranın üst kısmına yaklaştır */
+        padding: 0;
+        margin: 0;
+        height: 100dvh;
     }
-  
+
     #game-container {
-        height: 75vh; /* Eski: 85vh (daha az yükseklik) */
+        height: 95dvh;
+        width: 100%;
         max-height: none;
+        max-width: none;
         border-width: 2px;
-        margin-top: 2vh; /* Yukarı kaydır */
+        border-radius: 0;
+        box-shadow: none;
+        margin: 0;
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
     }
-  
+
     h1, h2 {
-        font-size: 1.8rem;
+        font-size: 1.5rem;
         text-shadow: 2px 2px 0 #cc9900;
     }
-  
+
     button {
-        padding: 12px 24px;
+        padding: 10px 20px;
         font-size: 1rem;
     }
-  
+
     #pauseButton {
         width: 40px;
         height: 40px;
         font-size: 1.2rem;
     }
-  
+
     #scoreDisplay {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
         padding: 8px 16px;
-        top: 10px; 
-    }
-
-
-    canvas {
-        margin-top: 10px;
+        top: 10px;
     }
 }
   

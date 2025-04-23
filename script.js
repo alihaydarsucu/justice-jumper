@@ -192,42 +192,41 @@ function resourceLoaded() {
 
 // Adjust canvas dimensions based on screen size
 function updateCanvasSize() {
-    const container = document.getElementById("game-container");
-    const containerWidth = container.clientWidth;
-    const containerHeight = container.clientHeight;
-    
-    // Different aspect ratio for mobile devices
     const isMobile = window.innerWidth <= 768;
     const baseWidth = isMobile ? 350 : 400;
     const baseHeight = isMobile ? 500 : 600;
-    
-    // Maintain aspect ratio
     const aspectRatio = baseWidth / baseHeight;
-    
-    // Maintain aspect ratio of game container, but fit to screen
-    if (containerWidth / containerHeight > aspectRatio) {
-        // Screen is wider, adjust based on height
-        canvasHeight = containerHeight;
-        canvasWidth = containerHeight * aspectRatio;
+
+    // Ekranın gerçek ölçülerini al
+    const screenWidth = window.innerWidth;
+    const screenHeight = window.innerHeight;
+
+    // En-boy oranına göre canvas boyutunu hesapla
+    if (screenWidth / screenHeight > aspectRatio) {
+        canvasHeight = screenHeight;
+        canvasWidth = screenHeight * aspectRatio;
     } else {
-        // Screen is taller, adjust based on width
-        canvasWidth = containerWidth;
-        canvasHeight = containerWidth / aspectRatio;
+        canvasWidth = screenWidth;
+        canvasHeight = screenWidth / aspectRatio;
     }
-    
-    // Calculate scale factor
+
     scale = canvasWidth / baseWidth;
-    
-    // Set canvas dimensions
+
     canvas.width = canvasWidth;
     canvas.height = canvasHeight;
-    
-    // Recalculate game variables
+
     ground.y = canvasHeight - (ground.height * scale);
     player.radius = 20 * scale;
     player.width = 40 * scale;
     player.height = 50 * scale;
+
+    // Canvas'ı ortalamak için container ayarları
+    const container = document.getElementById("game-container");
+    container.style.width = `${canvasWidth}px`;
+    container.style.height = `${canvasHeight}px`;
 }
+
+
 
 // Add event listeners
 function addEventListeners() {

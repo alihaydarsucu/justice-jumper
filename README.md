@@ -1,8 +1,6 @@
 # ⚖ Justice Jumper
 
-🧠 _This game was developed entirely by AI as an experiment to explore AI-generated game development. It is not an official project but rather an activity to test AI capabilities._
-
-**Justice Jumper** is a Flappy Bird-inspired arcade game reimagined with a legal theme. Players take on the role of a young **law student** who must jump over obstacles (law books and legal documents) to win cases and progress in their legal career. 📜✨
+**Justice Jumper** is a Flappy Bird-inspired arcade game reimagined with a legal theme. Players take on the role of a young **law student** who must jump over obstacles (law books) to win cases and progress in their legal career. 📜✨
 
 You can play it via this link: [⚖ Justice Jumper](https://alihaydarsucu.github.io/pixel-jumper/)
 
@@ -10,7 +8,7 @@ You can play it via this link: [⚖ Justice Jumper](https://alihaydarsucu.github
 
 - ⚖ **Legal-Themed Gameplay**: Jump through stacks of law books and avoid legal pitfalls.
 - 🏛 **Justice-Themed UI**: The score represents "Cases Won," and the game over message is **"Case Dismissed!"**
-- 🕹 **Simple Yet Challenging Controls**: Play with a single tap, click, or spacebar press.
+- 🕹 **Simple Yet Challenging Controls**: Play with a single tap, click, Enter (to resume and restrat) or spacebar press.
 - 🎨 **Retro Pixel-Art Design**: Inspired by classic arcade visuals with a courtroom touch.
 - 🔊 **Sound Effects & Animations**: Featuring gavel hits, page flips, and legal-themed effects.
 
@@ -74,10 +72,6 @@ Here is our detailed project structure:
 │   │-- die.wav
 ```
 
-## 👨‍💻 Development
-
-This project was developed by **vibe-coding** with **DeepSeek v3** as a fun legal-themed experiment. Contributions are welcome!
-
 ## 📜 License
 
 This project is licensed under the **MIT License**. See the `LICENSE` file for more details.
@@ -85,3 +79,5 @@ This project is licensed under the **MIT License**. See the `LICENSE` file for m
 ## 🙌 Acknowledgments
 
 Special thanks to the open-source community and game developers who inspire creative projects like **Justice Jumper!** 🎉
+
+Enjoy jumping through the law! ⚖📚
