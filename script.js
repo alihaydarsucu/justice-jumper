@@ -25,10 +25,10 @@ const BOOK_SETTINGS = {
 };
 
 const MOBILE_SETTINGS = {
-    pipeSpeed: 2.5,       // Base speed (px/frame)
+    pipeSpeed: 1.5,       // Base speed (px/frame)
     pipeSpawnRate: 1500,  // Milliseconds between pipes
     player: {
-        gravity: 0.3,     // Fall speed
+        gravity: 0.28,     // Fall speed
         lift: -6          // Jump strength (negative = upward)
     }
 };
