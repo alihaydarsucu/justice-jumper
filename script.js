@@ -11,25 +11,25 @@ const loadingScreen = document.getElementById("loadingScreen");
 
 const BOOK_SETTINGS = {
     thickness: {
-        min: 0.1,    // Min % of pipe height (10%)
-        max: 0.2,     // Max % of pipe height (40%)
-        absoluteMin: 15 // Minimum pixels
+        min: 0.08,    // Min % of pipe height (8%)
+        max: 0.15,    // Max % of pipe height (15%)
+        absoluteMin: 10 // Minimum pixels
     },
     width: {
-        min: 0.7,     // Min % of pipe width (70%)
-        max: 1.0      // Max % of pipe width (100%)
+        min: 0.6,     // Min % of pipe width (60%)
+        max: 0.9      // Max % of pipe width (90%)
     },
     perspective: {
-        maxOffset: 4  // Max perspective slant in pixels
+        maxOffset: 6  // Max perspective slant in pixels
     }
 };
 
 const MOBILE_SETTINGS = {
-    pipeSpeed: 1.8,       // Base speed (px/frame)
-    pipeSpawnRate: 1900,  // Milliseconds between pipes
+    pipeSpeed: 2.5,       // Base speed (px/frame)
+    pipeSpawnRate: 1500,  // Milliseconds between pipes
     player: {
-        gravity: 0.22,    // Fall speed
-        lift: -5.5        // Jump strength (negative = upward)
+        gravity: 0.3,     // Fall speed
+        lift: -6          // Jump strength (negative = upward)
     }
 };
 
