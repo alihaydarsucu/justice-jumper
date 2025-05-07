@@ -14,9 +14,9 @@ You can play it via this link: [⚖ Justice Jumper](https://alihaydarsucu.github
 
 ## 🛠 Technologies Used
 
-- 🖥 **HTML5** (Canvas for rendering the game)
-- ✨ **JavaScript** (Game logic and physics)
-- 🎨 **CSS** (Styling and UI elements)
+- 🎮 **HTML5 Canvas** – For dynamic game rendering.
+- ⚙️ **JavaScript** – Handles game logic, physics, and animation.
+- 🎨 **CSS3** – Styles UI screens, layout, and transitions.
 
 ## 🚀 Installation
 
@@ -63,13 +63,19 @@ Here is our detailed project structure:
 │   │-- player1.png
 │   │-- player2.png
 │   │-- player3.png
+│   │-- playerJump0.png
+│   │-- playerJump1.png
 │   │-- background.png
 │   │-- ground.png
+│   │-- Diagrams/
+│       │-- dependency_diagram.png
+│       │-- function_call_diagram.png
 │-- /sounds
 │   │-- jump.wav
 │   │-- score.wav
 │   │-- hit.wav
 │   │-- die.wav
+
 ```
 
 ## 📜 License
