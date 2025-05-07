@@ -29,7 +29,7 @@ const MOBILE_SETTINGS = {
     pipeSpawnRate: 1500,  // Milliseconds between pipes
     player: {
         gravity: 0.28,     // Fall speed
-        lift: -6          // Jump strength (negative = upward)
+        lift: -5         // Jump strength (negative = upward)
     }
 };
 
@@ -293,6 +293,7 @@ function handleKeyDown(event) {
         event.preventDefault();
         if (!gameRunning && !gameOver) {
             startGame();
+            playerJump();
         } else if (!gamePaused && gameRunning) {
             playerJump();
         }
@@ -863,11 +864,9 @@ function drawScore() {
 
 // Increase difficulty
 function increaseDifficulty() {
-    if (difficulty >= score / 10) return;
-    
-    difficulty = Math.floor(score / 10) + 1;
-    pipeSpeed = Math.min(6, 1.5 + (difficulty * 0.4)) * scale;
-    pipeSpawnRate = Math.max(1000, 2000 - (difficulty * 100));
+    const difficultyFactor = Math.min(score / 20, 6);  
+    pipeSpeed = (1.5 + difficultyFactor * 0.35) * scale;
+    pipeSpawnRate = Math.max(800, 2000 - difficultyFactor * 200);  
 }
 
 // End the game
