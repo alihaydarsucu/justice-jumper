@@ -122,7 +122,7 @@ function loadImages() {
     // Player running frames
     for (let i = 0; i < 4; i++) {
         sprites.player[i] = new Image();
-        sprites.player[i].src = `Images/player${i}.png`;
+        sprites.player[i].src = `Images/Player/player${i}.png`;
         sprites.player[i].onload = resourceLoaded;
         sprites.player[i].onerror = () => {
             console.log(`Player image ${i} failed to load, using fallback`);
@@ -134,7 +134,7 @@ function loadImages() {
     // Player jumping frames
     for (let i = 0; i < 2; i++) {
         sprites.playerJump[i] = new Image();
-        sprites.playerJump[i].src = `Images/playerJump${i}.png`;
+        sprites.playerJump[i].src = `Images/Player/playerJump${i}.png`;
         sprites.playerJump[i].onload = resourceLoaded;
         sprites.playerJump[i].onerror = () => {
             console.log(`Jump image ${i} failed to load, using fallback`);
@@ -151,7 +151,7 @@ function loadImages() {
     sprites.pipeTop.onerror = () => {
         resourcesLoaded++;
         console.log("Pipe image could not be loaded, default will be used");
-    };
+    };png
     
     sprites.pipeBottom = new Image();
     sprites.pipeBottom = sprites.pipeTop;  // Same image for bottom pipe
@@ -163,7 +163,7 @@ function loadImages() {
 
     // Background and ground
     sprites.background = new Image();
-    sprites.background.src = "Images/background.png";
+    sprites.background.src = "Images/Other/background.png";
     sprites.background.onload = resourceLoaded;
     sprites.background.onerror = () => {
         resourcesLoaded++;
@@ -171,7 +171,7 @@ function loadImages() {
     };
     
     sprites.ground = new Image();
-    sprites.ground.src = "Images/ground.png";
+    sprites.ground.src = "Images/Other/ground.png";
     sprites.ground.onload = resourceLoaded;
     sprites.ground.onerror = () => {
         resourcesLoaded++;
