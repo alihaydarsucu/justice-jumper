@@ -1,4 +1,10 @@
-# ⚖ Justice Jumper
+<div align="center">
+   <img src="Images/logo.png" alt="Justice Jumper Logo" width="200">
+</div>
+
+<div align="center">
+   <h1>⚖ Justice Jumper</h1>
+</div>
 
 **Justice Jumper** is a Flappy Bird-inspired arcade game reimagined with a legal theme. Players take on the role of a young **law student** who must jump over obstacles (law books) to win cases and progress in their legal career. 📜✨
 
