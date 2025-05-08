@@ -14,9 +14,17 @@ You can play it via this link: [⚖ Justice Jumper](https://alihaydarsucu.github
 
 - ⚖ **Legal-Themed Gameplay**: Jump through stacks of law books and avoid legal pitfalls.
 - 🏛 **Justice-Themed UI**: The score represents "Cases Won," and the game over message is **"Case Dismissed!"**
-- 🕹 **Simple Yet Challenging Controls**: Play with a single tap, click, Enter (to resume and restrat) or spacebar press.
+- 🕹 **Simple Yet Challenging Controls**: Play with a single tap, click, Enter (to resume and restart) or spacebar press.
 - 🎨 **Retro Pixel-Art Design**: Inspired by classic arcade visuals with a courtroom touch.
 - 🔊 **Sound Effects & Animations**: Featuring gavel hits, page flips, and legal-themed effects.
+
+## 🖼 Gameplay Screenshots
+
+<div align="center">
+   <img src="Images/Screenshots/menu_screenshot.png" alt="Main Menu" width="250">
+   <img src="Images/Screenshots/gameplay_screenshot.png" alt="During Gameplay" width="250">
+   <img src="Images/Screenshots/gameover_screenshot.png" alt="Game Over" width="250">
+</div>
 
 ## 🛠 Technologies Used
 
@@ -73,6 +81,9 @@ Here is our detailed project structure:
 │   │-- playerJump1.png
 │   │-- background.png
 │   │-- ground.png
+│   │-- menu_screenshot.png
+│   │-- gameplay_screenshot.png
+│   │-- gameover_screenshot.png
 │   │-- Diagrams/
 │       │-- dependency_diagram.png
 │       │-- function_call_diagram.png
