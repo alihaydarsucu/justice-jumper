@@ -73,21 +73,24 @@ Here is our detailed project structure:
 │-- LICENSE
 │-- README.md
 │-- /images
-│   │-- player0.png
-│   │-- player1.png
-│   │-- player2.png
-│   │-- player3.png
-│   │-- playerJump0.png
-│   │-- playerJump1.png
-│   │-- background.png
-│   │-- ground.png
-│   │-- menu_screenshot.png
-│   │-- gameplay_screenshot.png
-│   │-- gameover_screenshot.png
+│   │-- Player/
+│   │   │-- player0.png
+│   │   │-- player1.png
+│   │   │-- player2.png
+│   │   │-- player3.png
+│   │   │-- playerJump0.png
+│   │   │-- playerJump1.png
+│   │-- Other/
+│   │   │-- background.png
+│   │   │-- ground.png
+│   │-- Screenshots/
+│   │   │-- menu_screenshot.png
+│   │   │-- gameplay_screenshot.png
+│   │   │-- gameover_screenshot.png
 │   │-- Diagrams/
 │       │-- dependency_diagram.png
 │       │-- function_call_diagram.png
-│-- /sounds
+│-- /Sounds
 │   │-- jump.wav
 │   │-- score.wav
 │   │-- hit.wav
