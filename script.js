@@ -151,7 +151,7 @@ function loadImages() {
     sprites.pipeTop.onerror = () => {
         resourcesLoaded++;
         console.log("Pipe image could not be loaded, default will be used");
-    };png
+    };
     
     sprites.pipeBottom = new Image();
     sprites.pipeBottom = sprites.pipeTop;  // Same image for bottom pipe
