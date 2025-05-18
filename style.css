@@ -305,6 +305,7 @@ button:active {
         align-items: center;
         touch-action: manipulation;
         background-color: #1a1a1a;
+        zoom: 1; /* Reset zoom for smaller screens */
     }
 
     #game-container {
