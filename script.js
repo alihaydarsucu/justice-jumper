@@ -122,7 +122,7 @@ function loadImages() {
     // Player running frames
     for (let i = 0; i < 4; i++) {
         sprites.player[i] = new Image();
-        sprites.player[i].src = `Images/Player/player${i}.png`;
+        sprites.player[i].src = `Images/Player/playerJump${i}.png`;
         sprites.player[i].onload = resourceLoaded;
         sprites.player[i].onerror = () => {
             console.log(`Player image ${i} failed to load, using fallback`);
@@ -143,23 +143,6 @@ function loadImages() {
         };
     }
     
-        
-    // Pipe images
-    sprites.pipeTop = new Image();
-    sprites.pipeTop.src = "Images/pipe.png";
-    sprites.pipeTop.onload = resourceLoaded;
-    sprites.pipeTop.onerror = () => {
-        resourcesLoaded++;
-        console.log("Pipe image could not be loaded, default will be used");
-    };
-    
-    sprites.pipeBottom = new Image();
-    sprites.pipeBottom = sprites.pipeTop;  // Same image for bottom pipe
-    sprites.pipeBottom.onload = resourceLoaded;
-    sprites.pipeBottom.onerror = () => {
-        resourcesLoaded++;
-        console.log("Pipe image could not be loaded, default will be used");
-    };
 
     // Background and ground
     sprites.background = new Image();
@@ -477,14 +460,10 @@ function updatePlayer() {
     // Update animation
     player.animationCounter++;
     if (player.animationCounter >= player.animationSpeed) {
-        player.frame = (player.frame + 1) % player.frameCount;
+        player.frame = (player.frame + 1) % 2;
         player.animationCounter = 0;
     }
     
-    // Jump animation
-    if (player.isJumping) {
-        player.frame = 3; // Jump frame
-    }
 }
 
 // Draw the player
@@ -498,50 +477,24 @@ function drawPlayer() {
                      (!player.isJumping && sprites.player[player.frame]?.complete));
     
     if (useSprite) {
-        const sprite = player.isJumping ? 
-            sprites.playerJump[player.frame % 2] : 
-            sprites.player[player.frame];
-            
-        try {
-            ctx.drawImage(
-                sprite,
-                -player.width / 2,
-                -player.height / 2,
-                player.width,
-                player.height
-            );
-        } catch (e) {
-            console.log("Sprite drawing failed, falling back:", e);
-            drawDefaultPlayer();
-        }
-    } else {
-        drawDefaultPlayer();
+        const sprite = sprites.playerJump[player.frame % 2];
+
+        if (sprites.ready && sprite?.complete) {
+            try {
+                ctx.drawImage(
+                    sprite,
+                    -player.width / 2,
+                    -player.height / 2,
+                    player.width,
+                    player.height
+                );
+            } catch (e) {
+                console.log("Sprite drawing failed, falling back:", e);
+            }
     }
     
     ctx.restore();
-}
-
-// Default player drawing
-function drawDefaultPlayer() {
-    // Body
-    ctx.fillStyle = "#FF5555";
-    ctx.beginPath();
-    ctx.arc(0, 0, player.radius, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Eyes
-    ctx.fillStyle = "#FFFFFF";
-    ctx.beginPath();
-    ctx.arc(-8 * scale, -8 * scale, 3 * scale, 0, Math.PI * 2);
-    ctx.arc(8 * scale, -8 * scale, 3 * scale, 0, Math.PI * 2);
-    ctx.fill();
-    
-    // Mouth
-    ctx.strokeStyle = "#FFFFFF";
-    ctx.lineWidth = 2 * scale;
-    ctx.beginPath();
-    ctx.arc(0, 0, 12 * scale, Math.PI * 0.25, Math.PI * 0.75);
-    ctx.stroke();
+    }
 }
 
 // Manage and create pipes

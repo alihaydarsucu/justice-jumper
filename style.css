@@ -22,6 +22,7 @@ body {
     align-items: center;
     min-height: 100vh;
     padding: 20px;
+    zoom: 1.05;
 }
 
 /* Game Container */
