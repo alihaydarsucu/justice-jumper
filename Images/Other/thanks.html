@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Justice Jumper</title>
+    <link rel="icon" href="Images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        :root {
+            --light-gray: #F6F6F6;
+            --red: #B22222;
+            --blue: #1351C2;
+            --dark-purple: #361134;
+            --orange: #EE964B;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--light-gray);
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .logo {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--dark-purple);
+            margin-bottom: 10px;
+        }
+
+        .subtitle {
+            color: var(--blue);
+            font-size: 1.2rem;
+        }
+
+        .thank-you-card {
+            background: white;
+            border-radius: 15px;
+            padding: 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 40px;
+        }
+
+        h1 {
+            color: var(--dark-purple);
+            margin-bottom: 20px;
+            font-size: 2rem;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1.1rem;
+        }
+
+        .highlight {
+            color: var(--red);
+            font-weight: 600;
+        }
+
+        .birthday {
+            background-color: var(--orange);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin: 30px 0;
+            text-align: center;
+            font-weight: 600;
+        }
+
+        .game-link {
+            display: block;
+            background: var(--blue);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            margin: 20px auto 0 auto;
+            transition: all 0.3s;
+            align-items: center;
+            text-align: center;
+            width: fit-content;
+        }
+
+        .game-link:hover {
+            background: var(--dark-purple);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 50px;
+            color: #666;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px 15px;
+            }
+            
+            .thank-you-card {
+                padding: 25px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div align="center"><img src="https://raw.githubusercontent.com/alihaydarsucu/justice-jumper/refs/heads/main/Images/logo.png" alt="Justice Jumper Logo" width="200"></div>
+            <div align="center"><h1>Justice Jumper</h1></div>
+            <div class="subtitle">A legal-themed adventure game</div>
+        </header>
+
+        <div class="thank-you-card">
+            <h1>Special Thanks</h1>
+            
+            <p>Justice Jumper was created as a tribute to the wonderful world of law and the inspiring people who dedicate their lives to it.</p>
+            
+            <p>This project holds special meaning as it was inspired by our dear friend and law student <span class="highlight">Cemre Nisa Ersin</span>, whose passion for justice and unwavering moral compass continues to inspire us every day.</p>
+            
+            <p>To Cemre Abla - thank you for showing us what true integrity looks like, for your endless patience for us your engineering brothers, and for being such an incredible friend. Your dedication to justice and your kind heart make the world a better place.</p>
+            
+            <div class="birthday">
+                Happy Birthday! 🎉<br>June 17 - May your year be as bright as your smile!
+            </div>
+            
+            <p>Justice Jumper is our small way of celebrating your journey through law school and the amazing person you are. May your career be as successful as your high score in this game!</p>
+            
+            <a href="https://alihaydarsucu.github.io/justice-jumper/" class="game-link" align="center ">Play Justice Jumper Again</a>
+        </div>
+        
+        <footer>
+            Created with ❤️ by <br>
+                                Ali Haydar Sucu  <br>
+                                & Hacı Salih Toker <br>
+                                & Osman Nuri Yıldız<br>
+                                & Cahit Onur Enoğlu <br>
+                                 | Justice Jumper © 2024
+        </footer>
+    </div>
+</body>
+</html>
